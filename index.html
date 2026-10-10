@@ -14,308 +14,260 @@
         html, body {
             width: 100%;
             height: 100%;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0078d4;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1e1e1e;
             overflow: hidden;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0d47a1 0%, #1565c0 50%, #0d47a1 100%);
         }
 
         .desktop {
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #0078d4 0%, #106ebe 100%);
             display: flex;
-            align-items: flex-start;
-            justify-content: flex-start;
-            padding: 20px;
+            flex-direction: column;
             position: relative;
+        }
+
+        .main-area {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
         }
 
         .window {
-            background: #f0f0f0;
-            width: 800px;
-            height: 600px;
-            box-shadow: 
-                0 0 0 1px #dfdfdf,
-                0 0 0 2px #b4b4b4,
-                5px 5px 15px rgba(0, 0, 0, 0.5);
+            background: #ffffff;
+            width: 100%;
+            max-width: 900px;
+            height: 650px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             display: flex;
             flex-direction: column;
-            border: 2px solid;
-            border-color: #dfdfdf #808080 #808080 #dfdfdf;
-            position: relative;
-            margin-top: 40px;
-            margin-left: 60px;
-        }
-
-        .window::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(135deg, #dfdfdf, #808080);
-            z-index: -1;
+            overflow: hidden;
         }
 
         .title-bar {
-            background: linear-gradient(90deg, #000080 0%, #1084d7 100%);
-            color: white;
-            padding: 2px 2px;
+            background: #ffffff;
+            color: #000;
+            padding: 12px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 28px;
+            height: 48px;
             user-select: none;
-            font-size: 12px;
-            font-weight: bold;
-            letter-spacing: 0.5px;
+            font-size: 14px;
+            font-weight: 500;
+            border-bottom: 1px solid #e5e5e5;
             flex-shrink: 0;
-            border-bottom: 1px solid #000080;
         }
 
         .title-bar-content {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 12px;
             flex: 1;
-            padding-left: 2px;
         }
 
         .title-bar-icon {
-            width: 16px;
-            height: 16px;
+            width: 24px;
+            height: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(0, 0, 0, 0.3);
+            font-size: 14px;
         }
 
         .window-controls {
             display: flex;
-            gap: 2px;
-            padding-right: 2px;
+            gap: 8px;
+            align-items: center;
         }
 
         .window-button {
-            width: 24px;
-            height: 22px;
-            border: 1px solid;
-            border-color: #dfdfdf #808080 #808080 #dfdfdf;
-            background: linear-gradient(180deg, #f0f0f0 0%, #dfdfdf 100%);
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
             color: #000;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 9px;
-            font-weight: bold;
-            user-select: none;
-            transition: all 0.05s;
+            font-size: 16px;
+            border-radius: 6px;
+            transition: background 0.15s;
         }
 
-        .window-button:active {
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
-            background: linear-gradient(180deg, #dfdfdf 0%, #f0f0f0 100%);
+        .window-button:hover:not(.close) {
+            background: #f3f3f3;
         }
 
         .window-button.close:hover {
-            background: #c00000;
+            background: #f1707a;
             color: white;
-            border-color: #800000 #ff8080 #ff8080 #800000;
         }
 
         .window-button.close:active {
-            background: #ff0000;
+            background: #e81123;
         }
 
         .content-area {
             flex: 1;
-            overflow: hidden;
-            background: #c0c0c0;
+            overflow-y: auto;
+            background: #ffffff;
             display: flex;
             flex-direction: column;
-            border: 2px solid;
-            border-color: #dfdfdf #808080 #808080 #dfdfdf;
+            padding: 24px;
+            gap: 20px;
         }
 
-        .menu-bar {
-            background: #c0c0c0;
-            border-bottom: 2px solid;
-            border-color: #dfdfdf #808080 #808080 #dfdfdf;
-            padding: 2px 2px;
+        .content-area::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        .content-area::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .content-area::-webkit-scrollbar-thumb {
+            background: #d0d0d0;
+            border-radius: 6px;
+        }
+
+        .content-area::-webkit-scrollbar-thumb:hover {
+            background: #a0a0a0;
+        }
+
+        .profile-header {
             display: flex;
-            font-size: 12px;
+            gap: 20px;
+            align-items: flex-start;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #0078d4 0%, #50e6ff 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
             flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .menu-item {
-            padding: 2px 6px;
-            cursor: pointer;
-            user-select: none;
-            border: 1px solid transparent;
-        }
-
-        .menu-item:hover {
-            border: 1px solid;
-            border-color: #dfdfdf #808080 #808080 #dfdfdf;
-            background: linear-gradient(90deg, #000080, #1084d7);
-            color: white;
-        }
-
-        .main-content {
-            flex: 1;
-            padding: 2px;
-            overflow-y: auto;
-            background: #c0c0c0;
-            scrollbar-width: thin;
-            scrollbar-color: #dfdfdf #c0c0c0;
-        }
-
-        .main-content::-webkit-scrollbar {
-            width: 16px;
-        }
-
-        .main-content::-webkit-scrollbar-track {
-            background: #c0c0c0;
-            border-left: 1px solid #dfdfdf;
-        }
-
-        .main-content::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #dfdfdf 0%, #808080 100%);
-            border: 1px solid;
-            border-color: #dfdfdf #808080 #808080 #dfdfdf;
-            min-height: 40px;
-        }
-
-        .dialog-box {
-            margin: 8px;
-            background: #c0c0c0;
-            border: 2px solid;
-            border-color: #dfdfdf #808080 #808080 #dfdfdf;
-            padding: 4px;
-        }
-
-        .dialog-title {
-            background: linear-gradient(90deg, #000080, #1084d7);
-            color: white;
-            padding: 2px 2px;
-            margin: -4px -4px 4px -4px;
-            font-size: 11px;
-            font-weight: bold;
-        }
-
-        .dialog-content {
-            font-size: 12px;
+        .profile-info h2 {
+            font-size: 20px;
             color: #000;
-            line-height: 1.5;
+            margin-bottom: 4px;
+            font-weight: 600;
         }
 
-        .profile-section {
-            margin-bottom: 8px;
-        }
-
-        .profile-label {
-            font-weight: bold;
-            color: #000080;
-            font-size: 11px;
+        .profile-info p {
+            font-size: 14px;
+            color: #666;
             margin-bottom: 2px;
         }
 
-        .profile-value {
-            font-size: 12px;
+        .profile-info .email {
+            color: #0078d4;
+            text-decoration: none;
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        .section {
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
             color: #000;
-            margin-left: 8px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #0078d4;
+        }
+
+        .section-content {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .skill-card {
+            background: #f3f3f3;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #0078d4;
+            font-weight: 500;
+            border: 1px solid #e5e5e5;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .skill-card:hover {
+            background: #e8f4f8;
+            border-color: #0078d4;
         }
 
         .button-group {
             display: flex;
-            gap: 4px;
-            margin-top: 8px;
-            margin-left: 8px;
+            gap: 12px;
+            margin-top: 16px;
+            flex-wrap: wrap;
         }
 
         .btn {
-            border: 2px solid;
-            border-color: #dfdfdf #808080 #808080 #dfdfdf;
-            background: linear-gradient(180deg, #f0f0f0 0%, #dfdfdf 100%);
-            color: #000;
-            padding: 4px 12px;
-            font-size: 11px;
+            border: none;
+            background: #0078d4;
+            color: white;
+            padding: 8px 20px;
+            font-size: 13px;
             cursor: pointer;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-weight: bold;
+            border-radius: 6px;
+            font-weight: 500;
             user-select: none;
-            min-width: 60px;
-            text-align: center;
+            transition: all 0.15s;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
         .btn:hover {
-            background: linear-gradient(180deg, #ffffff 0%, #f0f0f0 100%);
+            background: #106ebe;
+            box-shadow: 0 2px 8px rgba(0, 120, 212, 0.3);
         }
 
         .btn:active {
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
-            background: linear-gradient(180deg, #dfdfdf 0%, #f0f0f0 100%);
+            background: #005a9e;
+            transform: scale(0.98);
         }
 
-        .status-bar {
-            background: linear-gradient(90deg, #c0c0c0 0%, #f0f0f0 50%, #c0c0c0 100%);
-            border-top: 1px solid #dfdfdf;
-            padding: 2px 2px;
-            font-size: 11px;
-            color: #000;
-            display: flex;
-            height: 20px;
-            align-items: center;
-            flex-shrink: 0;
+        .btn.secondary {
+            background: transparent;
+            color: #0078d4;
+            border: 1px solid #0078d4;
         }
 
-        .status-bar-section {
-            flex: 1;
-            padding: 0 2px;
-            border-right: 1px solid #808080;
-            border-left: 1px solid #dfdfdf;
-            display: flex;
-            align-items: center;
-        }
-
-        .status-bar-section:first-child {
-            border-left: none;
-        }
-
-        .status-bar-section:last-child {
-            border-right: none;
-        }
-
-        .groupbox {
-            border: 2px solid;
-            border-color: #dfdfdf #808080 #808080 #dfdfdf;
-            margin: 6px;
-            padding: 4px;
-            background: #c0c0c0;
-        }
-
-        .groupbox-title {
-            font-size: 11px;
-            font-weight: bold;
-            color: #000;
-            margin-left: -4px;
-            margin-bottom: 4px;
-        }
-
-        .skill-item {
-            font-size: 11px;
-            color: #000;
-            padding: 2px 4px;
-            margin: 2px 0;
-        }
-
-        .skill-item::before {
-            content: '☐ ';
-            margin-right: 4px;
+        .btn.secondary:hover {
+            background: #f3f3f3;
         }
 
         .taskbar {
@@ -323,147 +275,225 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 28px;
-            background: linear-gradient(90deg, #c0c0c0 0%, #dfdfdf 50%, #c0c0c0 100%);
-            border-top: 2px solid;
-            border-color: #dfdfdf #808080 #808080 #dfdfdf;
+            height: 56px;
+            background: #202020;
+            border-top: 1px solid #3f3f3f;
             display: flex;
             align-items: center;
-            padding: 2px 2px;
+            padding: 0 12px;
             z-index: 1000;
+            gap: 12px;
         }
 
         .taskbar-start {
-            border: 2px solid;
-            border-color: #dfdfdf #808080 #808080 #dfdfdf;
-            background: linear-gradient(180deg, #f0f0f0 0%, #dfdfdf 100%);
-            padding: 2px 6px;
-            font-size: 11px;
-            font-weight: bold;
+            width: 48px;
+            height: 48px;
+            background: transparent;
+            border: none;
+            color: white;
             cursor: pointer;
-            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            border-radius: 4px;
+            transition: background 0.15s;
         }
 
-        .taskbar-start:active {
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
+        .taskbar-start:hover {
+            background: rgba(255, 255, 255, 0.08);
         }
 
-        .taskbar-button {
-            border: 1px solid #c0c0c0;
-            background: #c0c0c0;
-            margin-left: 2px;
-            padding: 2px 4px;
-            font-size: 11px;
+        .taskbar-apps {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex: 1;
+            border-left: 1px solid #3f3f3f;
+            padding-left: 12px;
+        }
+
+        .taskbar-app {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
             cursor: pointer;
-            user-select: none;
-            max-width: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.15s;
         }
 
-        .taskbar-button:hover {
-            border: 1px solid #dfdfdf #808080 #808080 #dfdfdf;
+        .taskbar-app:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
-        .time {
+        .taskbar-app.active {
+            background: rgba(0, 120, 212, 0.3);
+            border-color: #0078d4;
+        }
+
+        .taskbar-system {
+            display: flex;
+            gap: 4px;
+            align-items: center;
             margin-left: auto;
-            margin-right: 4px;
-            font-size: 11px;
-            font-weight: bold;
+        }
+
+        .system-icon {
+            width: 48px;
+            height: 48px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            border-radius: 4px;
+            transition: background 0.15s;
+        }
+
+        .system-icon:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .time-display {
+            color: white;
+            font-size: 12px;
+            padding: 0 12px;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        @media (max-width: 1024px) {
+            .window {
+                max-width: 95%;
+                height: auto;
+                max-height: 80vh;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
 <body>
     <div class="desktop">
-        <div class="window">
-            <div class="title-bar">
-                <div class="title-bar-content">
-                    <div class="title-bar-icon">📋</div>
-                    <span>Profile - User Information</span>
-                </div>
-                <div class="window-controls">
-                    <button class="window-button">_</button>
-                    <button class="window-button">□</button>
-                    <button class="window-button close">✕</button>
-                </div>
-            </div>
-
-            <div class="content-area">
-                <div class="menu-bar">
-                    <div class="menu-item">File</div>
-                    <div class="menu-item">Edit</div>
-                    <div class="menu-item">View</div>
-                    <div class="menu-item">Help</div>
+        <div class="main-area">
+            <div class="window">
+                <div class="title-bar">
+                    <div class="title-bar-content">
+                        <div class="title-bar-icon">👤</div>
+                        <span>Profile</span>
+                    </div>
+                    <div class="window-controls">
+                        <button class="window-button">−</button>
+                        <button class="window-button">◻</button>
+                        <button class="window-button close">✕</button>
+                    </div>
                 </div>
 
-                <div class="main-content">
-                    <div class="dialog-box">
-                        <div class="dialog-title">Personal Information</div>
-                        <div class="dialog-content">
-                            <div class="profile-section">
-                                <div class="profile-label">Name:</div>
-                                <div class="profile-value">Your Name</div>
-                            </div>
-                            <div class="profile-section">
-                                <div class="profile-label">Title:</div>
-                                <div class="profile-value">Your Professional Title</div>
-                            </div>
-                            <div class="profile-section">
-                                <div class="profile-label">Email:</div>
-                                <div class="profile-value">user@example.com</div>
-                            </div>
+                <div class="content-area">
+                    <div class="profile-header">
+                        <div class="profile-avatar">👤</div>
+                        <div class="profile-info">
+                            <h2>Your Name</h2>
+                            <p>Your Professional Title</p>
+                            <p style="font-size: 13px; margin-top: 8px;">Software Developer • Designer • Creative</p>
+                            <a href="#" class="email">user@example.com</a>
                         </div>
                     </div>
 
-                    <div class="dialog-box">
-                        <div class="dialog-title">About Me</div>
-                        <div class="dialog-content">
-                            <p>Welcome to my profile! This is where you can learn about me, my skills, and what I do. Feel free to customize this section with your own information.</p>
+                    <div class="section">
+                        <div class="section-title">About</div>
+                        <div class="section-content">
+                            <p>Welcome to my profile! I'm a passionate developer and designer with expertise in creating beautiful, functional digital experiences. I enjoy solving complex problems and building innovative solutions that make a difference.</p>
                         </div>
                     </div>
 
-                    <div class="groupbox">
-                        <div class="groupbox-title">Technical Skills</div>
-                        <div class="skill-item">Web Development</div>
-                        <div class="skill-item">UI/UX Design</div>
-                        <div class="skill-item">Problem Solving</div>
-                        <div class="skill-item">Communication</div>
-                        <div class="skill-item">Project Management</div>
-                        <div class="skill-item">Database Design</div>
+                    <div class="section">
+                        <div class="section-title">Skills</div>
+                        <div class="skills-grid">
+                            <div class="skill-card">Web Development</div>
+                            <div class="skill-card">UI/UX Design</div>
+                            <div class="skill-card">JavaScript</div>
+                            <div class="skill-card">React</div>
+                            <div class="skill-card">Problem Solving</div>
+                            <div class="skill-card">Leadership</div>
+                        </div>
                     </div>
 
-                    <div class="groupbox">
-                        <div class="groupbox-title">Connect With Me</div>
+                    <div class="section">
+                        <div class="section-title">Connect</div>
                         <div class="button-group">
-                            <button class="btn">GitHub</button>
-                            <button class="btn">LinkedIn</button>
-                            <button class="btn">Email</button>
-                            <button class="btn">Twitter</button>
+                            <button class="btn">
+                                <span style="margin-right: 6px;">⚙️</span> GitHub
+                            </button>
+                            <button class="btn">
+                                <span style="margin-right: 6px;">💼</span> LinkedIn
+                            </button>
+                            <button class="btn">
+                                <span style="margin-right: 6px;">✉️</span> Email
+                            </button>
+                            <button class="btn secondary">
+                                <span style="margin-right: 6px;">🐦</span> Twitter
+                            </button>
                         </div>
                     </div>
-                </div>
-
-                <div class="status-bar">
-                    <div class="status-bar-section">Ready</div>
-                    <div class="status-bar-section">Profile Loaded</div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="taskbar">
-        <div class="taskbar-start">Start</div>
-        <div class="taskbar-button">Profile - User Information</div>
-        <div class="time" id="time">10:47 AM</div>
+        <div class="taskbar">
+            <button class="taskbar-start">⊞</button>
+            <div class="taskbar-apps">
+                <div class="taskbar-app active" title="Profile">👤</div>
+                <div class="taskbar-app" title="Edge">🌐</div>
+                <div class="taskbar-app" title="Files">📁</div>
+            </div>
+            <div class="taskbar-system">
+                <button class="system-icon" title="Search">🔍</button>
+                <button class="system-icon" title="Widgets">☰</button>
+                <button class="system-icon" title="Chat">💬</button>
+                <button class="system-icon" title="Volume">🔊</button>
+                <button class="system-icon" title="Battery">🔋</button>
+            </div>
+            <div class="time-display" id="time">10:30 AM</div>
+        </div>
     </div>
 
     <script>
         function updateTime() {
             const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
+            const hours = now.getHours();
             const minutes = String(now.getMinutes()).padStart(2, '0');
-            document.getElementById('time').textContent = hours + ':' + minutes;
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            const displayHours = hours % 12 || 12;
+            document.getElementById('time').textContent = displayHours + ':' + minutes + ' ' + ampm;
         }
         updateTime();
-        setInterval(updateTime, 60000);
+        setInterval(updateTime, 1000);
+
+        // Smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+            });
+        });
     </script>
 </body>
 </html>
