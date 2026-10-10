@@ -1,561 +1,522 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile</title>
+  <style>
+    :root {
+      --win11-bg-1: #0f3b7f;
+      --win11-bg-2: #2b6db2;
+      --win11-bg-3: #6bb5ff;
+      --win11-panel: rgba(18, 18, 18, 0.72);
+      --win11-taskbar: rgba(17, 17, 17, 0.9);
+      --win11-window: rgba(255,255,255,0.92);
+      --win11-window-border: rgba(0,0,0,0.08);
+      --win11-text: #1a1a1a;
+      --win11-muted: #5a5a5a;
+      --win11-accent: #0078d4;
+      --win11-accent-2: #0d77d9;
+      --win11-surface: #f3f2f1;
+      --win11-surface-2: #ece8e4;
+      --win11-shadow: 0 14px 34px rgba(0,0,0,0.32);
+      --win11-control: rgba(255,255,255,0.08);
+      --win11-control-hover: rgba(255,255,255,0.12);
+    }
 
-        html, body {
-            width: 100%;
-            height: 100%;
-            font-family: 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #000;
-            overflow: hidden;
-        }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
-            background: linear-gradient(180deg, #0d47a1 0%, #1565c0 50%, #0d47a1 100%);
-        }
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: "Segoe UI", "Segoe UI Variable", "Segoe UI Symbol", sans-serif;
+      background: #000;
+      overflow: hidden;
+      color: var(--win11-text);
+    }
 
-        .desktop {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
+    body {
+      background:
+        linear-gradient(135deg, rgba(14, 44, 94, 0.38), rgba(255,255,255,0.04)),
+        radial-gradient(circle at 16% 18%, rgba(255,255,255,0.12), transparent 16%),
+        radial-gradient(circle at 68% 28%, rgba(136, 203, 255, 0.28), transparent 20%),
+        linear-gradient(180deg, var(--win11-bg-1) 0%, var(--win11-bg-2) 38%, var(--win11-bg-3) 100%);
+    }
 
-        .main-area {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-            overflow: hidden;
-        }
+    .desktop {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
 
-        .window {
-            background: #fffbf5;
-            width: 100%;
-            max-width: 940px;
-            height: 680px;
-            border-radius: 12px;
-            box-shadow: 
-                0 4px 6px rgba(0, 0, 0, 0.07),
-                0 10px 25px rgba(0, 0, 0, 0.1),
-                0 20px 50px rgba(0, 0, 0, 0.15);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            border: 1px solid rgba(0, 0, 0, 0.06);
-        }
+    .desktop::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0) 28%),
+        linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0) 34%);
+      pointer-events: none;
+    }
 
-        .title-bar {
-            background: #faf9f8;
-            color: #000;
-            padding: 8px 8px 0 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            height: 40px;
-            user-select: none;
-            font-size: 13px;
-            font-weight: 400;
-            flex-shrink: 0;
-            border-bottom: 1px solid #e7e6e5;
-        }
+    .main-area {
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 20px 96px 20px;
+    }
 
-        .title-bar-content {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex: 1;
-            padding: 8px 0;
-        }
+    .window {
+      position: relative;
+      width: min(900px, 70vw);
+      height: min(680px, 70vh);
+      background: rgba(255,255,255,0.96);
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 16px;
+      box-shadow: var(--win11-shadow);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
 
-        .title-bar-icon {
-            width: 16px;
-            height: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
+    .window::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0));
+      pointer-events: none;
+    }
 
-        .window-controls {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            padding: 4px 8px 8px 0;
-        }
+    .title-bar {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 44px;
+      padding: 0 12px 0 10px;
+      background: rgba(244,243,242,0.9);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      z-index: 1;
+    }
 
-        .window-button {
-            width: 32px;
-            height: 32px;
-            border: none;
-            background: transparent;
-            color: #000;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            border-radius: 4px;
-            transition: background 0.1s ease-out;
-            font-weight: 400;
-        }
+    .title-bar-content {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #111;
+    }
 
-        .window-button:hover:not(.close) {
-            background: rgba(0, 0, 0, 0.055);
-        }
+    .title-bar-icon {
+      width: 18px;
+      height: 18px;
+      display: grid;
+      place-items: center;
+      border-radius: 4px;
+      background: rgba(0,120,212,0.08);
+      font-size: 12px;
+    }
 
-        .window-button:active:not(.close) {
-            background: rgba(0, 0, 0, 0.1);
-        }
+    .window-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-right: 2px;
+    }
 
-        .window-button.close:hover {
-            background: #f1707a;
-            color: white;
-        }
+    .window-button {
+      width: 30px;
+      height: 30px;
+      border: none;
+      background: transparent;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1a1a1a;
+      font-size: 16px;
+      line-height: 1;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.12s ease;
+    }
 
-        .window-button.close:active {
-            background: #f1707a;
-            opacity: 0.8;
-        }
+    .window-button:hover {
+      background: rgba(0,0,0,0.05);
+    }
 
-        .content-area {
-            flex: 1;
-            overflow-y: auto;
-            background: #fffbf5;
-            display: flex;
-            flex-direction: column;
-            padding: 0;
-        }
+    .window-button.close:hover {
+      background: #e81123;
+      color: #fff;
+    }
 
-        .content-area::-webkit-scrollbar {
-            width: 10px;
-        }
+    .window-button:active {
+      transform: scale(0.98);
+    }
 
-        .content-area::-webkit-scrollbar-track {
-            background: transparent;
-        }
+    .content-area {
+      position: relative;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: rgba(255,255,255,0.94);
+      z-index: 1;
+    }
 
-        .content-area::-webkit-scrollbar-thumb {
-            background: #c5bfb8;
-            border-radius: 5px;
-            border: 2px solid transparent;
-            background-clip: padding-box;
-        }
+    .content-wrapper {
+      padding: 20px 24px 18px 24px;
+      overflow-y: auto;
+      flex: 1;
+    }
 
-        .content-area::-webkit-scrollbar-thumb:hover {
-            background: #b3aca3;
-            border: 2px solid transparent;
-            background-clip: padding-box;
-        }
+    .content-wrapper::-webkit-scrollbar { width: 10px; }
+    .content-wrapper::-webkit-scrollbar-thumb {
+      background: rgba(0,0,0,0.18);
+      border: 2px solid rgba(255,255,255,0.2);
+      border-radius: 999px;
+    }
 
-        .content-wrapper {
-            padding: 20px 24px 24px 24px;
-            flex: 1;
-            overflow-y: auto;
-        }
+    .profile-header {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 24px;
+      padding: 10px 10px 14px 10px;
+      border-radius: 10px;
+      background: rgba(243,242,241,0.75);
+      border: 1px solid rgba(0,0,0,0.04);
+    }
 
-        .profile-section {
-            display: flex;
-            gap: 16px;
-            align-items: flex-start;
-            margin-bottom: 24px;
-        }
+    .profile-avatar {
+      width: 94px;
+      height: 94px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #0078d4 0%, #4ec9ff 100%);
+      font-size: 44px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.38);
+      color: white;
+      flex-shrink: 0;
+    }
 
-        .profile-avatar {
-            width: 96px;
-            height: 96px;
-            background: linear-gradient(135deg, #0078d4 0%, #50b4ff 100%);
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 44px;
-            flex-shrink: 0;
-        }
+    .profile-info h2 {
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      margin-bottom: 2px;
+    }
 
-        .profile-info h2 {
-            font-size: 18px;
-            color: #000;
-            margin-bottom: 2px;
-            font-weight: 500;
-            letter-spacing: -0.3px;
-        }
+    .profile-info p {
+      font-size: 13px;
+      color: var(--win11-muted);
+      line-height: 1.4;
+    }
 
-        .profile-info p {
-            font-size: 13px;
-            color: #616161;
-            margin-bottom: 1px;
-            letter-spacing: -0.2px;
-        }
+    .profile-info .email {
+      display: inline-block;
+      margin-top: 5px;
+      color: var(--win11-accent);
+      font-size: 12px;
+      text-decoration: none;
+    }
 
-        .profile-info .email {
-            color: #0078d4;
-            text-decoration: none;
-            font-size: 12px;
-            margin-top: 4px;
-            display: inline-block;
-        }
+    .profile-info .email:hover { text-decoration: underline; }
 
-        .profile-info .email:hover {
-            text-decoration: underline;
-        }
+    .section {
+      margin-bottom: 20px;
+    }
 
-        .section {
-            margin-bottom: 20px;
-        }
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.15px;
+      margin-bottom: 10px;
+      color: #111;
+    }
 
-        .section-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: #000;
-            margin-bottom: 10px;
-            letter-spacing: -0.2px;
-        }
+    .section-content {
+      font-size: 12px;
+      line-height: 1.6;
+      color: #3c3c3c;
+    }
 
-        .section-content {
-            font-size: 12px;
-            color: #424242;
-            line-height: 1.5;
-            letter-spacing: -0.1px;
-        }
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
 
-        .skills-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 8px;
-        }
+    .skill-tag {
+      background: #eff3f8;
+      border: 1px solid rgba(0,0,0,0.05);
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #005ea6;
+      letter-spacing: -0.1px;
+    }
 
-        .skill-tag {
-            background: #eae5df;
-            color: #0078d4;
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 500;
-            border: 1px solid #ddd6ce;
-            transition: all 0.1s ease-out;
-            cursor: default;
-            letter-spacing: -0.2px;
-        }
+    .buttons-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
 
-        .skill-tag:hover {
-            background: #e0d9d0;
-            border-color: #d0c8bf;
-        }
+    .win-button {
+      appearance: none;
+      border: 1px solid rgba(0,0,0,0.1);
+      background: linear-gradient(180deg, #fff 0%, #f4f3f2 100%);
+      color: #1a1a1a;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: -0.1px;
+      cursor: pointer;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.75);
+      transition: all 0.12s ease;
+    }
 
-        .buttons-group {
-            display: flex;
-            gap: 8px;
-            margin-top: 12px;
-            flex-wrap: wrap;
-        }
+    .win-button:hover {
+      background: linear-gradient(180deg, #ffffff 0%, #e9e7e6 100%);
+    }
 
-        .btn {
-            border: 1px solid #d0c8bf;
-            background: #f3f2f1;
-            color: #000;
-            padding: 6px 16px;
-            font-size: 12px;
-            cursor: pointer;
-            border-radius: 4px;
-            font-weight: 500;
-            user-select: none;
-            transition: all 0.1s ease-out;
-            font-family: 'Segoe UI', sans-serif;
-            letter-spacing: -0.2px;
-        }
+    .win-button.primary {
+      background: linear-gradient(180deg, #0a84ff 0%, #0078d4 100%);
+      color: #fff;
+      border-color: rgba(0,0,0,0.1);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.18);
+    }
 
-        .btn:hover {
-            background: #edebe9;
-            border-color: #c5bfb8;
-        }
+    .win-button.primary:hover {
+      background: linear-gradient(180deg, #1a8fff 0%, #0d73d0 100%);
+    }
 
-        .btn:active {
-            background: #e0d9d0;
-        }
+    .taskbar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 54px;
+      background: rgba(18,18,18,0.9);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 10px 0 8px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      z-index: 10;
+    }
 
-        .btn.primary {
-            background: #0078d4;
-            color: white;
-            border-color: #0078d4;
-        }
+    .taskbar-start {
+      width: 44px;
+      height: 44px;
+      border: none;
+      background: transparent;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      border-radius: 8px;
+      font-size: 18px;
+      color: #fff;
+      transition: background 0.12s ease;
+    }
 
-        .btn.primary:hover {
-            background: #106ebe;
-            border-color: #106ebe;
-        }
+    .taskbar-start:hover {
+      background: rgba(255,255,255,0.08);
+    }
 
-        .btn.primary:active {
-            background: #0066b2;
-        }
+    .taskbar-apps {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex: 0 0 auto;
+    }
 
-        .taskbar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 58px;
-            background: #202020;
-            border-top: 1px solid #3f3f3f;
-            display: flex;
-            align-items: center;
-            padding: 0 8px;
-            z-index: 1000;
-            gap: 0;
-            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.2);
-        }
+    .taskbar-app {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.06);
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      color: rgba(255,255,255,0.9);
+      cursor: pointer;
+      transition: background 0.12s ease, border-color 0.12s ease;
+    }
 
-        .taskbar-start {
-            width: 52px;
-            height: 52px;
-            background: transparent;
-            border: none;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            border-radius: 0;
-            transition: background 0.1s ease-out;
-            margin-right: 4px;
-        }
+    .taskbar-app:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.1);
+    }
 
-        .taskbar-start:hover {
-            background: rgba(255, 255, 255, 0.06);
-        }
+    .taskbar-app.active {
+      background: rgba(0,120,212,0.28);
+      border-color: rgba(0,120,212,0.6);
+    }
 
-        .taskbar-start:active {
-            background: rgba(255, 255, 255, 0.12);
-        }
+    .taskbar-spacer {
+      flex: 1;
+    }
 
-        .taskbar-apps {
-            display: flex;
-            gap: 4px;
-            align-items: center;
-            flex: 0;
-            border-left: 1px solid #3f3f3f;
-            padding-left: 6px;
-            height: 52px;
-        }
+    .taskbar-system {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding-left: 10px;
+      border-left: 1px solid rgba(255,255,255,0.08);
+      height: 42px;
+    }
 
-        .taskbar-app {
-            width: 48px;
-            height: 48px;
-            background: transparent;
-            border: 1px solid transparent;
-            border-radius: 4px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            transition: all 0.1s ease-out;
-        }
+    .system-icon {
+      width: 34px;
+      height: 34px;
+      border: none;
+      background: transparent;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: rgba(255,255,255,0.8);
+      cursor: pointer;
+      transition: background 0.12s ease;
+    }
 
-        .taskbar-app:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.15);
-        }
+    .system-icon:hover {
+      background: rgba(255,255,255,0.08);
+    }
 
-        .taskbar-app.active {
-            background: rgba(255, 255, 255, 0.12);
-            border-top: 3px solid #0078d4;
-            border-color: transparent;
-            border-top-color: #0078d4;
-        }
+    .time-display {
+      font-size: 11px;
+      color: rgba(255,255,255,0.9);
+      width: 58px;
+      text-align: center;
+      letter-spacing: 0.2px;
+    }
 
-        .taskbar-spacer {
-            flex: 1;
-        }
+    @media (max-width: 980px) {
+      .window { width: min(92vw, 760px); height: min(80vh, 620px); }
+      .profile-header { align-items: flex-start; }
+    }
 
-        .taskbar-system {
-            display: flex;
-            gap: 0;
-            align-items: center;
-            border-left: 1px solid #3f3f3f;
-            padding-left: 8px;
-            height: 52px;
-        }
-
-        .system-icon {
-            width: 48px;
-            height: 48px;
-            background: transparent;
-            border: none;
-            color: rgba(255, 255, 255, 0.7);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            border-radius: 0;
-            transition: all 0.1s ease-out;
-        }
-
-        .system-icon:hover {
-            color: white;
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .system-icon:active {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .time-display {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 11px;
-            padding: 0 12px;
-            min-width: 48px;
-            text-align: center;
-            font-weight: 400;
-            letter-spacing: 0.2px;
-        }
-
-        .divider {
-            width: 1px;
-            height: 32px;
-            background: #3f3f3f;
-            margin: 0 4px;
-        }
-
-        @media (max-width: 1200px) {
-            .window {
-                max-width: 90vw;
-                height: auto;
-                max-height: 75vh;
-            }
-
-            .main-area {
-                padding: 12px;
-            }
-        }
-    </style>
+    @media (max-width: 640px) {
+      .pointer-events-none { display: none; }
+      .main-area { padding: 14px 14px 76px 14px; }
+      .window { width: 100%; height: auto; min-height: 500px; }
+      .profile-header { flex-direction: column; align-items: flex-start; }
+      .taskbar-app:nth-child(n+4) { display: none; }
+    }
+  </style>
 </head>
 <body>
-    <div class="desktop">
-        <div class="main-area">
-            <div class="window">
-                <div class="title-bar">
-                    <div class="title-bar-content">
-                        <div class="title-bar-icon">👤</div>
-                        <span>Profile</span>
-                    </div>
-                    <div class="window-controls">
-                        <button class="window-button">−</button>
-                        <button class="window-button">◻</button>
-                        <button class="window-button close">✕</button>
-                    </div>
-                </div>
-
-                <div class="content-area">
-                    <div class="content-wrapper">
-                        <div class="profile-section">
-                            <div class="profile-avatar">👤</div>
-                            <div class="profile-info">
-                                <h2>Your Name</h2>
-                                <p>Your Professional Title</p>
-                                <p>Software Developer · Designer · Creator</p>
-                                <a href="#" class="email">user@example.com</a>
-                            </div>
-                        </div>
-
-                        <div class="section">
-                            <div class="section-title">About</div>
-                            <div class="section-content">
-                                <p>Welcome to my profile. I'm a passionate developer and designer with a focus on creating elegant, functional digital experiences. I specialize in modern web technologies and user-centered design.</p>
-                            </div>
-                        </div>
-
-                        <div class="section">
-                            <div class="section-title">Skills</div>
-                            <div class="skills-container">
-                                <div class="skill-tag">Web Development</div>
-                                <div class="skill-tag">UI Design</div>
-                                <div class="skill-tag">JavaScript</div>
-                                <div class="skill-tag">React</div>
-                                <div class="skill-tag">TypeScript</div>
-                                <div class="skill-tag">CSS</div>
-                                <div class="skill-tag">Problem Solving</div>
-                                <div class="skill-tag">Leadership</div>
-                            </div>
-                        </div>
-
-                        <div class="section">
-                            <div class="section-title">Connect</div>
-                            <div class="buttons-group">
-                                <button class="btn primary">GitHub</button>
-                                <button class="btn primary">LinkedIn</button>
-                                <button class="btn primary">Email</button>
-                                <button class="btn">Twitter</button>
-                                <button class="btn">Portfolio</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div class="desktop">
+    <div class="main-area">
+      <div class="window" aria-label="Profile window">
+        <div class="title-bar">
+          <div class="title-bar-content">
+            <div class="title-bar-icon">👤</div>
+            <span>Profile</span>
+          </div>
+          <div class="window-controls">
+            <button class="window-button" aria-label="Minimize">−</button>
+            <button class="window-button" aria-label="Maximize">□</button>
+            <button class="window-button close" aria-label="Close">✕</button>
+          </div>
         </div>
 
-        <div class="taskbar">
-            <button class="taskbar-start" title="Start">⊞</button>
-            <div class="taskbar-apps">
-                <div class="taskbar-app active" title="Profile">👤</div>
-                <div class="taskbar-app" title="Edge">🌐</div>
-                <div class="taskbar-app" title="Files">📁</div>
-                <div class="taskbar-app" title="Store">🛍️</div>
+        <div class="content-area">
+          <div class="content-wrapper">
+            <div class="profile-header">
+              <div class="profile-avatar">👤</div>
+              <div class="profile-info">
+                <h2>Your Name</h2>
+                <p>Your Professional Title</p>
+                <p>Developer • Designer • Builder</p>
+                <a href="#" class="email">user@example.com</a>
+              </div>
             </div>
-            <div class="taskbar-spacer"></div>
-            <div class="taskbar-system">
-                <button class="system-icon" title="Search">🔍</button>
-                <div class="divider"></div>
-                <button class="system-icon" title="Widgets">☰</button>
-                <button class="system-icon" title="Chat">💬</button>
-                <div class="divider"></div>
-                <button class="system-icon" title="Sound">🔊</button>
-                <button class="system-icon" title="Battery">🔋</button>
-                <button class="system-icon" title="Network">📶</button>
-                <div class="divider"></div>
-                <div class="time-display" id="time">10:30 AM</div>
+
+            <div class="section">
+              <div class="section-title">About</div>
+              <div class="section-content">
+                Welcome to my profile. I create clean, thoughtful digital experiences and solve problems with a balance of design and engineering.
+              </div>
             </div>
+
+            <div class="section">
+              <div class="section-title">Skills</div>
+              <div class="skills">
+                <span class="skill-tag">Web Development</span>
+                <span class="skill-tag">UI/UX Design</span>
+                <span class="skill-tag">JavaScript</span>
+                <span class="skill-tag">TypeScript</span>
+                <span class="skill-tag">React</span>
+                <span class="skill-tag">Problem Solving</span>
+                <span class="skill-tag">Product Design</span>
+                <span class="skill-tag">Communication</span>
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="section-title">Connect</div>
+              <div class="buttons-row">
+                <button class="win-button primary">GitHub</button>
+                <button class="win-button primary">LinkedIn</button>
+                <button class="win-button primary">Email</button>
+                <button class="win-button">Portfolio</button>
+                <button class="win-button">Twitter</button>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
-    <script>
-        function updateTime() {
-            const now = new Date();
-            const hours = now.getHours();
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const ampm = hours >= 12 ? 'PM' : 'AM';
-            const displayHours = hours % 12 || 12;
-            document.getElementById('time').textContent = displayHours + ':' + minutes + ' ' + ampm;
-        }
-        updateTime();
-        setInterval(updateTime, 60000);
+    <div class="taskbar" aria-label="Windows taskbar">
+      <button class="taskbar-start" aria-label="Start">⊞</button>
+      <div class="taskbar-apps">
+        <div class="taskbar-app active" title="Profile">👤</div>
+        <div class="taskbar-app" title="Edge">🌐</div>
+        <div class="taskbar-app" title="Files">📁</div>
+        <div class="taskbar-app" title="Store">🛍️</div>
+      </div>
+      <div class="taskbar-spacer"></div>
+      <div class="taskbar-system">
+        <button class="system-icon" aria-label="Search">🔍</button>
+        <button class="system-icon" aria-label="Widgets">☰</button>
+        <button class="system-icon" aria-label="Chat">💬</button>
+        <button class="system-icon" aria-label="Volume">🔊</button>
+        <button class="system-icon" aria-label="Battery">🔋</button>
+        <div class="time-display" id="time">10:30 AM</div>
+      </div>
+    </div>
+  </div>
 
-        // Button click animations
-        document.querySelectorAll('.btn, .window-button, .system-icon').forEach(btn => {
-            btn.addEventListener('mousedown', function() {
-                this.style.transform = 'scale(0.98)';
-            });
-            btn.addEventListener('mouseup', function() {
-                this.style.transform = 'scale(1)';
-            });
-            btn.addEventListener('mouseleave', function() {
-                this.style.transform = 'scale(1)';
-            });
-        });
-    </script>
+  <script>
+    function updateTime() {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const meridiem = hours >= 12 ? 'PM' : 'AM';
+      const displayHours = hours % 12 || 12;
+      document.getElementById('time').textContent = displayHours + ':' + minutes + ' ' + meridiem;
+    }
+    updateTime();
+    setInterval(updateTime, 60000);
+  </script>
 </body>
 </html>
