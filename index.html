@@ -3,19 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Profile</title>
+  <title>Windows 11 Red Desktop</title>
   <style>
     :root {
-      --win11-red-dark: #8b1a1a;
-      --win11-red-med: #c41e3a;
-      --win11-red-light: #ff4444;
-      --win11-bg-light: #c5d9f1;
-      --win11-surface: #f5f5f5;
-      --win11-surface-alt: #efefef;
-      --win11-text: #1a1a1a;
-      --win11-muted: #717171;
-      --win11-accent: #c41e3a;
-      --win11-shadow: 0 12px 28px rgba(0,0,0,0.28);
+      --bg-deep: #1d0909;
+      --bg-deep-2: #2d0c0c;
+      --bg-mid: #5f1010;
+      --bg-red: #e02424;
+      --bg-red-2: #ff4a4a;
+      --bg-red-3: #ff7a7a;
+      --taskbar-dark: rgba(18, 18, 18, 0.9);
+      --panel: rgba(255,255,255,0.74);
+      --panel-strong: rgba(255,255,255,0.88);
+      --text: #111111;
+      --muted: #4d4d4d;
+      --shadow: 0 18px 36px rgba(0,0,0,0.35);
+      --accent: #c42b1c;
+      --blue: #0078d4;
+      --blue-2: #0a84ff;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -23,577 +28,662 @@
     html, body {
       width: 100%;
       height: 100%;
-      font-family: "Segoe UI", "Segoe UI Variable", sans-serif;
       background: #000;
       overflow: hidden;
-      color: var(--win11-text);
+      font-family: "Segoe UI Variable", "Segoe UI", sans-serif;
+      color: var(--text);
     }
 
     body {
+      position: relative;
       background:
-        linear-gradient(135deg, rgba(139, 26, 26, 0.25), rgba(255,255,255,0.02)),
-        radial-gradient(circle at 25% 20%, rgba(255, 68, 68, 0.18), transparent 22%),
-        linear-gradient(180deg, #8b4a5f 0%, #a5c9e8 40%, #b0d4f0 100%);
+        radial-gradient(circle at 62% 30%, rgba(255, 120, 120, 0.18), transparent 16%),
+        radial-gradient(circle at 58% 78%, rgba(255, 40, 40, 0.12), transparent 18%),
+        linear-gradient(180deg, #1d0202 0%, #370505 14%, #510707 28%, #620a0c 100%);
+    }
+
+    .wallpaper {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0.22), rgba(0,0,0,0.28)),
+        radial-gradient(circle at 58% 18%, rgba(255,132,132,0.18), transparent 8%),
+        radial-gradient(circle at 42% 32%, rgba(255, 70, 70, 0.14), transparent 20%);
+    }
+
+    .bloom {
+      position: absolute;
+      inset: -8% -5% -12% -5%;
+      pointer-events: none;
+      filter: saturate(1.2);
+    }
+
+    .bloom::before,
+    .bloom::after {
+      content: "";
+      position: absolute;
+      border-radius: 50% 40% 45% 65% / 52% 44% 56% 48%;
+      transform: rotate(-12deg);
+      box-shadow: inset 0 0 12px rgba(255,255,255,0.08), 0 0 28px rgba(255,0,0,0.08);
+    }
+
+    .bloom::before {
+      width: 92vw;
+      height: 78vh;
+      left: 50%;
+      top: 12%;
+      transform: translateX(-50%) rotate(-20deg);
+      background:
+        linear-gradient(135deg, rgba(255,68,68,0.96), rgba(255,18,18,0.95) 18%, rgba(130,0,0,0.9) 30%, rgba(255,29,29,0.84) 48%, rgba(255,0,0,0.92) 70%, rgba(130,0,0,0.92) 100%);
+      clip-path: polygon(18% 0%, 82% 0%, 100% 24%, 100% 78%, 76% 100%, 55% 96%, 32% 100%, 0% 76%, 0% 24%);
+      opacity: 0.95;
+    }
+
+    .bloom::after {
+      width: 76vw;
+      height: 68vh;
+      left: 52%;
+      bottom: -10%;
+      transform: translateX(-50%) rotate(18deg);
+      background:
+        linear-gradient(135deg, rgba(255,97,97,0.98), rgba(255,18,18,0.94) 20%, rgba(180,0,0,0.92) 36%, rgba(255,36,36,0.98) 58%, rgba(120,0,0,0.95) 82%, rgba(255,72,72,0.98) 100%);
+      clip-path: polygon(15% 0%, 80% 0%, 100% 18%, 100% 76%, 80% 100%, 18% 100%, 0% 80%, 0% 16%);
+      opacity: 0.98;
+      filter: blur(0.2px);
     }
 
     .desktop {
       position: relative;
       width: 100%;
       height: 100%;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .desktop::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 28%),
-        linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0) 34%);
-      pointer-events: none;
-    }
-
-    .main-area {
-      position: relative;
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 32px 24px 84px 24px;
-      overflow: hidden;
-    }
-
-    .window {
-      position: relative;
-      width: min(840px, 75vw);
-      height: min(660px, 75vh);
-      background: rgba(255,255,255,0.97);
-      border: 1px solid rgba(0,0,0,0.09);
-      border-radius: 12px;
-      box-shadow: var(--win11-shadow);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-    }
-
-    .title-bar {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 48px;
-      padding: 0 14px;
-      background: linear-gradient(90deg, rgba(255,255,255,0.95), rgba(245,245,245,0.92));
-      border-bottom: 1px solid rgba(0,0,0,0.07);
       z-index: 1;
     }
 
-    .title-bar-content {
+    .desktop-icons {
+      position: absolute;
+      left: 20px;
+      top: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      z-index: 2;
+    }
+
+    .desktop-icon {
+      width: 90px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: white;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.7), 0 0 12px rgba(0,0,0,0.45);
+      user-select: none;
+      cursor: default;
+    }
+
+    .desktop-icon .icon-shape {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.28);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 8px 18px rgba(0,0,0,0.18);
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+    }
+
+    .desktop-icon .label {
+      display: block;
+      max-width: 88px;
+      text-align: center;
+      font-size: 12px;
+      line-height: 1.1;
+      letter-spacing: 0.1px;
+      white-space: normal;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    }
+
+    .desktop-icon:hover .icon-shape {
+      background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.06));
+      border-color: rgba(255,255,255,0.6);
+    }
+
+    .desktop-icon.selected .icon-shape {
+      background: linear-gradient(180deg, rgba(63, 132, 255, 0.82), rgba(91, 156, 255, 0.65));
+      border: 1px solid rgba(255,255,255,0.8);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.28), 0 0 0 1px rgba(255,255,255,0.15);
+    }
+
+    .desktop-icon.selected .label {
+      text-shadow: 0 0 0 rgba(0,0,0,0);
+    }
+
+    .center-panel {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: min(840px, 74vw);
+      height: min(628px, 68vh);
+      transform: translate(-50%, -50%);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.14);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      z-index: 2;
+      animation: menuFadeIn 0.18s ease-out;
+    }
+
+    @keyframes menuFadeIn {
+      from { opacity: 0; transform: translate(-50%, -48%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+
+    .start-menu {
+      width: min(760px, 70vw);
+      height: min(540px, 62vh);
+      margin-top: 22px;
+      background: rgba(248,248,248,0.78);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 18px;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.18);
+      padding: 18px 18px 12px 18px;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .menu-head {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-size: 14px;
-      font-weight: 500;
-      color: #1a1a1a;
+      justify-content: space-between;
+      color: #111;
+      margin-bottom: 18px;
+      padding: 8px 2px 0 2px;
+    }
+
+    .menu-head h3 {
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+    }
+
+    .all-apps {
+      font-size: 12px;
+      color: #3b3b3b;
+      border-radius: 8px;
+      padding: 5px 8px;
+      background: rgba(255,255,255,0.30);
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .modules {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(62px, 1fr));
+      gap: 12px 10px;
+      margin-bottom: 24px;
+    }
+
+    .app-tile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 6px 12px 6px;
+      border-radius: 10px;
+      gap: 8px;
+      min-height: 90px;
+      text-align: center;
+      color: #1d1d1d;
+      transition: background 0.12s ease;
+    }
+
+    .app-tile:hover {
+      background: rgba(0,0,0,0.03);
+    }
+
+    .app-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.3), rgba(255,255,255,0.12));
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);
+    }
+
+    .app-label {
+      font-size: 11px;
+      line-height: 1.15;
+      letter-spacing: -0.1px;
+    }
+
+    .menu-divider {
+      height: 1px;
+      background: rgba(0,0,0,0.06);
+      margin: 0 2px 14px 2px;
+    }
+
+    .rec-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      padding: 0 2px;
+      color: #111;
+    }
+
+    .rec-header h4 {
+      font-size: 18px;
+      font-weight: 600;
       letter-spacing: -0.2px;
     }
 
-    .title-bar-icon {
-      width: 20px;
-      height: 20px;
-      display: grid;
-      place-items: center;
-      border-radius: 4px;
-      background: linear-gradient(135deg, #c41e3a, #ff6b6b);
+    .more {
       font-size: 12px;
-    }
-
-    .window-controls {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding-right: 4px;
-    }
-
-    .window-button {
-      width: 34px;
-      height: 34px;
-      border: none;
-      background: transparent;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #1a1a1a;
-      font-size: 16px;
-      line-height: 1;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.15s ease;
-    }
-
-    .window-button:hover {
-      background: rgba(0,0,0,0.04);
-    }
-
-    .window-button.close:hover {
-      background: #c41e3a;
-      color: #fff;
-    }
-
-    .window-button:active {
-      transform: scale(0.96);
-    }
-
-    .content-area {
-      position: relative;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      background: rgba(255,255,255,0.96);
-      z-index: 1;
-    }
-
-    .content-wrapper {
-      padding: 24px 28px 20px 28px;
-      overflow-y: auto;
-      flex: 1;
-    }
-
-    .content-wrapper::-webkit-scrollbar { width: 11px; }
-    .content-wrapper::-webkit-scrollbar-track { background: transparent; }
-    .content-wrapper::-webkit-scrollbar-thumb {
-      background: rgba(0,0,0,0.16);
-      border: 2px solid rgba(255,255,255,0.3);
-      border-radius: 999px;
-    }
-    .content-wrapper::-webkit-scrollbar-thumb:hover {
-      background: rgba(0,0,0,0.22);
-    }
-
-    .start-label {
-      font-size: 11px;
-      font-weight: 600;
-      color: #1a1a1a;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      margin-bottom: 12px;
-      display: inline-block;
-    }
-
-    .pinned-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
-      gap: 8px;
-      margin-bottom: 28px;
-    }
-
-    .grid-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 8px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.1s ease;
-    }
-
-    .grid-item:hover {
-      background: rgba(196, 30, 58, 0.06);
-    }
-
-    .grid-item-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, #c41e3a 0%, #ff6b6b 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      color: white;
-      box-shadow: 0 2px 6px rgba(196,30,58,0.25);
-    }
-
-    .grid-item-label {
-      font-size: 11px;
       color: #3a3a3a;
-      text-align: center;
-      font-weight: 500;
-      line-height: 1.2;
+      border-radius: 8px;
+      padding: 5px 8px;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(0,0,0,0.04);
     }
 
-    .recommended-label {
-      font-size: 11px;
-      font-weight: 600;
-      color: #1a1a1a;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      margin-bottom: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .recommended-grid {
+    .rec-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-bottom: 16px;
+      grid-template-columns: repeat(2, minmax(160px, 1fr));
+      gap: 12px 14px;
     }
 
-    .recommended-item {
-      display: flex;
-      gap: 10px;
-      padding: 10px 12px;
-      border-radius: 8px;
-      background: rgba(196, 30, 58, 0.04);
-      border: 1px solid rgba(196, 30, 58, 0.1);
-      cursor: pointer;
-      transition: all 0.1s ease;
-    }
-
-    .recommended-item:hover {
-      background: rgba(196, 30, 58, 0.08);
-      border-color: rgba(196, 30, 58, 0.2);
-    }
-
-    .recommended-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 4px;
-      background: linear-gradient(135deg, #c41e3a, #ff6b6b);
+    .rec-item {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      color: white;
-      flex-shrink: 0;
+      gap: 10px;
+      padding: 8px 10px;
+      background: rgba(255,255,255,0.26);
+      border-radius: 10px;
+      min-height: 64px;
+      border: 1px solid rgba(0,0,0,0.02);
     }
 
-    .recommended-text {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      font-size: 12px;
-    }
-
-    .recommended-text-title {
-      font-weight: 500;
-      color: #1a1a1a;
-    }
-
-    .recommended-text-desc {
-      font-size: 11px;
-      color: #717171;
-    }
-
-    .profile-section {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      padding: 12px;
+    .rec-icon {
+      width: 28px;
+      height: 28px;
       border-radius: 8px;
-      background: rgba(196, 30, 58, 0.05);
-      border: 1px solid rgba(196, 30, 58, 0.08);
-      margin-bottom: 16px;
-    }
-
-    .profile-avatar {
-      width: 48px;
-      height: 48px;
       display: grid;
       place-items: center;
-      border-radius: 6px;
-      background: linear-gradient(135deg, #c41e3a 0%, #ff6b6b 100%);
-      font-size: 24px;
+      background: linear-gradient(180deg, #f7f7f7, #ebebeb);
+      color: #0b0b0b;
+      font-size: 16px;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.03);
       flex-shrink: 0;
-      box-shadow: 0 2px 4px rgba(196,30,58,0.2);
     }
 
-    .profile-info {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
+    .rec-name {
+      font-size: 12px;
+      color: #141414;
+      font-weight: 500;
     }
 
-    .profile-name {
-      font-size: 13px;
-      font-weight: 600;
-      color: #1a1a1a;
-    }
-
-    .profile-status {
+    .rec-meta {
       font-size: 11px;
-      color: #717171;
+      color: #5d5d5d;
+      margin-top: 2px;
     }
 
-    .taskbar {
-      position: fixed;
+    .profile-strip {
+      position: absolute;
       left: 0;
       right: 0;
       bottom: 0;
-      height: 52px;
-      background: rgba(24, 24, 24, 0.92);
-      border-top: 1px solid rgba(255,255,255,0.06);
       display: flex;
       align-items: center;
-      gap: 4px;
-      padding: 0 12px;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      z-index: 10;
+      justify-content: space-between;
+      padding: 12px 16px 10px 16px;
+      border-top: 1px solid rgba(0,0,0,0.04);
+      background: rgba(255,255,255,0.12);
+      border-bottom-left-radius: 18px;
+      border-bottom-right-radius: 18px;
     }
 
-    .taskbar-start {
-      width: 48px;
+    .account {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #111;
+    }
+
+    .account .avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #8d8d8d, #d9d9d9);
+      display: grid;
+      place-items: center;
+      font-size: 15px;
+      color: #111;
+    }
+
+    .power {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.08);
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,0.4);
+      font-size: 18px;
+      color: #222;
+    }
+
+    .taskbar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
       height: 48px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 10px 0 12px;
+      background: rgba(17,17,17,0.78);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      z-index: 20;
+    }
+
+    .taskbar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 100%;
+    }
+
+    .start-button {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
       border: none;
       background: transparent;
       display: grid;
       place-items: center;
-      cursor: pointer;
-      border-radius: 6px;
+      color: white;
       font-size: 18px;
-      color: #fff;
+      cursor: pointer;
       transition: background 0.12s ease;
     }
 
-    .taskbar-start:hover {
-      background: rgba(255,255,255,0.1);
-    }
-
-    .taskbar-separator {
-      width: 1px;
-      height: 28px;
+    .start-button:hover {
       background: rgba(255,255,255,0.08);
-      margin: 0 4px;
     }
 
-    .taskbar-apps {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      flex: 0 0 auto;
-    }
-
-    .taskbar-app {
-      width: 46px;
-      height: 46px;
-      border-radius: 6px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.05);
+    .search-button, .task-button, .widget-button, .system-button {
+      width: 38px;
+      height: 38px;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: rgba(255,255,255,0.9);
       display: grid;
       place-items: center;
-      font-size: 18px;
+      cursor: pointer;
+      transition: background 0.12s ease;
+      font-size: 17px;
+    }
+
+    .search-button:hover, .task-button:hover, .widget-button:hover, .system-button:hover {
+      background: rgba(255,255,255,0.08);
+    }
+
+    .taskbar-center {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 100%;
+    }
+
+    .pinned-app {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.03);
       color: rgba(255,255,255,0.9);
       cursor: pointer;
-      transition: all 0.12s ease;
+      transition: background 0.12s ease, border-color 0.12s ease;
+      position: relative;
     }
 
-    .taskbar-app:hover {
+    .pinned-app:hover {
       background: rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.08);
     }
 
-    .taskbar-app.active {
-      background: rgba(196, 30, 58, 0.3);
-      border-color: rgba(196, 30, 58, 0.5);
+    .pinned-app.active {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.14);
     }
 
-    .taskbar-spacer {
-      flex: 1;
+    .pinned-app.active::after {
+      content: "";
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      bottom: -5px;
+      height: 3px;
+      background: var(--blue-2);
+      border-radius: 99px;
     }
 
-    .taskbar-system {
+    .tray {
       display: flex;
       align-items: center;
       gap: 2px;
-      padding-left: 8px;
+      height: 100%;
+      margin-left: 8px;
       border-left: 1px solid rgba(255,255,255,0.08);
-      height: 46px;
+      padding-left: 8px;
     }
 
-    .system-icon {
-      width: 40px;
-      height: 40px;
-      border: none;
-      background: transparent;
-      border-radius: 6px;
-      display: grid;
-      place-items: center;
-      color: rgba(255,255,255,0.8);
-      cursor: pointer;
-      transition: background 0.12s ease;
-      font-size: 14px;
-    }
-
-    .system-icon:hover {
-      background: rgba(255,255,255,0.08);
-      color: #fff;
-    }
-
-    .time-display {
-      font-size: 11px;
-      color: rgba(255,255,255,0.9);
-      width: 56px;
+    .clock {
+      min-width: 64px;
       text-align: center;
-      letter-spacing: 0.2px;
-      font-weight: 400;
+      color: rgba(255,255,255,0.9);
+      font-size: 11px;
+      line-height: 1.3;
+      padding: 0 6px;
+    }
+
+    .desktop-icon.default {
+      opacity: 0.98;
     }
 
     @media (max-width: 980px) {
-      .window { width: min(92vw, 720px); height: min(80vh, 600px); }
-      .recommended-grid { grid-template-columns: 1fr; }
+      .center-panel { width: min(680px, 82vw); }
+      .start-menu { width: min(620px, 80vw); }
+      .modules { grid-template-columns: repeat(4, minmax(60px, 1fr)); }
     }
 
-    @media (max-width: 640px) {
-      .main-area { padding: 12px 12px 68px 12px; }
-      .window { width: 100%; height: auto; min-height: 480px; }
-      .pinned-grid { grid-template-columns: repeat(4, 1fr); }
-      .recommended-grid { grid-template-columns: 1fr; }
+    @media (max-width: 700px) {
+      .modules { grid-template-columns: repeat(3, minmax(60px, 1fr)); }
+      .rec-grid { grid-template-columns: 1fr; }
+      .start-menu { height: auto; min-height: 460px; }
     }
   </style>
 </head>
 <body>
+  <div class="wallpaper">
+    <div class="bloom"></div>
+  </div>
+
   <div class="desktop">
-    <div class="main-area">
-      <div class="window" aria-label="Start Menu Profile">
-        <div class="title-bar">
-          <div class="title-bar-content">
-            <div class="title-bar-icon">👤</div>
-            <span>Profile</span>
+    <div class="desktop-icons">
+      <div class="desktop-icon selected default">
+        <div class="icon-shape">🗑️</div>
+        <div class="label">Recycle Bin</div>
+      </div>
+    </div>
+
+    <div class="center-panel">
+      <div class="start-menu">
+        <div class="menu-head">
+          <h3>Pinned</h3>
+          <div class="all-apps">All apps</div>
+        </div>
+
+        <div class="modules">
+          <div class="app-tile">
+            <div class="app-icon">🌐</div>
+            <div class="app-label">Microsoft Edge</div>
           </div>
-          <div class="window-controls">
-            <button class="window-button" aria-label="Minimize">−</button>
-            <button class="window-button" aria-label="Maximize">□</button>
-            <button class="window-button close" aria-label="Close">✕</button>
+          <div class="app-tile">
+            <div class="app-icon">📝</div>
+            <div class="app-label">Word</div>
+          </div>
+          <div class="app-tile">
+            <div class="app-icon">📊</div>
+            <div class="app-label">Excel</div>
+          </div>
+          <div class="app-tile">
+            <div class="app-icon">📑</div>
+            <div class="app-label">PowerPoint</div>
+          </div>
+          <div class="app-tile">
+            <div class="app-icon">✉️</div>
+            <div class="app-label">Mail</div>
+          </div>
+          <div class="app-tile">
+            <div class="app-icon">📅</div>
+            <div class="app-label">Calendar</div>
+          </div>
+          <div class="app-tile">
+            <div class="app-icon">🖼️</div>
+            <div class="app-label">Photos</div>
+          </div>
+          <div class="app-tile">
+            <div class="app-icon">⚙️</div>
+            <div class="app-label">Settings</div>
+          </div>
+          <div class="app-tile">
+            <div class="app-icon">🧮</div>
+            <div class="app-label">Calculator</div>
+          </div>
+          <div class="app-tile">
+            <div class="app-icon">🗂️</div>
+            <div class="app-label">Files</div>
+          </div>
+          <div class="app-tile">
+            <div class="app-icon">🛍️</div>
+            <div class="app-label">Store</div>
+          </div>
+          <div class="app-tile">
+            <div class="app-icon">🎮</div>
+            <div class="app-label">Xbox</div>
           </div>
         </div>
 
-        <div class="content-area">
-          <div class="content-wrapper">
-            <div class="start-label">Pinned</div>
-            <div class="pinned-grid">
-              <div class="grid-item">
-                <div class="grid-item-icon">🌐</div>
-                <div class="grid-item-label">Edge</div>
-              </div>
-              <div class="grid-item">
-                <div class="grid-item-icon">📝</div>
-                <div class="grid-item-label">Word</div>
-              </div>
-              <div class="grid-item">
-                <div class="grid-item-icon">📊</div>
-                <div class="grid-item-label">Excel</div>
-              </div>
-              <div class="grid-item">
-                <div class="grid-item-icon">🎯</div>
-                <div class="grid-item-label">PowerPoint</div>
-              </div>
-              <div class="grid-item">
-                <div class="grid-item-icon">✉️</div>
-                <div class="grid-item-label">Mail</div>
-              </div>
-              <div class="grid-item">
-                <div class="grid-item-icon">📅</div>
-                <div class="grid-item-label">Calendar</div>
-              </div>
-              <div class="grid-item">
-                <div class="grid-item-icon">🛍️</div>
-                <div class="grid-item-label">Store</div>
-              </div>
-              <div class="grid-item">
-                <div class="grid-item-icon">📁</div>
-                <div class="grid-item-label">Files</div>
-              </div>
-            </div>
+        <div class="menu-divider"></div>
 
-            <div class="recommended-label">
-              <span>Recommended</span>
-              <span style="font-size: 11px; font-weight: normal; text-transform: none; letter-spacing: normal;">More ></span>
-            </div>
-            <div class="recommended-grid">
-              <div class="recommended-item">
-                <div class="recommended-icon">🚀</div>
-                <div class="recommended-text">
-                  <div class="recommended-text-title">Get Started</div>
-                  <div class="recommended-text-desc">Welcome to Profile</div>
-                </div>
-              </div>
-              <div class="recommended-item">
-                <div class="recommended-icon">🎨</div>
-                <div class="recommended-text">
-                  <div class="recommended-text-title">Settings</div>
-                  <div class="recommended-text-desc">Configure profile</div>
-                </div>
-              </div>
-              <div class="recommended-item">
-                <div class="recommended-icon">💼</div>
-                <div class="recommended-text">
-                  <div class="recommended-text-title">About Me</div>
-                  <div class="recommended-text-desc">Developer & Designer</div>
-                </div>
-              </div>
-              <div class="recommended-item">
-                <div class="recommended-icon">🔗</div>
-                <div class="recommended-text">
-                  <div class="recommended-text-title">Connect</div>
-                  <div class="recommended-text-desc">Social profiles</div>
-                </div>
-              </div>
-            </div>
+        <div class="rec-header">
+          <h4>Recommended</h4>
+          <div class="more">More</div>
+        </div>
 
-            <div style="border-top: 1px solid rgba(0,0,0,0.06); padding-top: 12px; margin-top: 12px;">
-              <div class="profile-section">
-                <div class="profile-avatar">👤</div>
-                <div class="profile-info">
-                  <div class="profile-name">Your Name</div>
-                  <div class="profile-status">user@example.com</div>
-                </div>
-              </div>
+        <div class="rec-grid">
+          <div class="rec-item">
+            <div class="rec-icon">🚀</div>
+            <div>
+              <div class="rec-name">Get Started</div>
+              <div class="rec-meta">Welcome to Windows</div>
             </div>
           </div>
+          <div class="rec-item">
+            <div class="rec-icon">🧩</div>
+            <div>
+              <div class="rec-name">PowerShell</div>
+              <div class="rec-meta">Pinned app</div>
+            </div>
+          </div>
+          <div class="rec-item">
+            <div class="rec-icon">🪟</div>
+            <div>
+              <div class="rec-name">Windows Setup</div>
+              <div class="rec-meta">Recent</div>
+            </div>
+          </div>
+          <div class="rec-item">
+            <div class="rec-icon">💾</div>
+            <div>
+              <div class="rec-name">File Explorer</div>
+              <div class="rec-meta">Most used</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-strip">
+          <div class="account">
+            <div class="avatar">👤</div>
+            <div>Your Name</div>
+          </div>
+          <div class="power">⏻</div>
         </div>
       </div>
     </div>
 
-    <div class="taskbar" aria-label="Windows taskbar">
-      <button class="taskbar-start" aria-label="Start">⊞</button>
-      <div class="taskbar-separator"></div>
-      <div class="taskbar-apps">
-        <div class="taskbar-app active" title="Profile">👤</div>
-        <div class="taskbar-app" title="Edge">🌐</div>
-        <div class="taskbar-app" title="Files">📁</div>
-        <div class="taskbar-app" title="Store">🛍️</div>
+    <div class="taskbar">
+      <div class="taskbar-left">
+        <button class="start-button" aria-label="Start">⊞</button>
+        <button class="search-button" aria-label="Search">⌕</button>
+        <button class="task-button" aria-label="Task View">▣</button>
+        <button class="widget-button" aria-label="Widgets">▤</button>
       </div>
-      <div class="taskbar-spacer"></div>
-      <div class="taskbar-system">
-        <button class="system-icon" aria-label="Search">🔍</button>
-        <button class="system-icon" aria-label="Widgets">☰</button>
-        <button class="system-icon" aria-label="Volume">🔊</button>
-        <button class="system-icon" aria-label="Battery">🔋</button>
-        <div class="time-display" id="time">1:51 PM</div>
+
+      <div class="taskbar-center">
+        <div class="pinned-app active" title="Profile">👤</div>
+        <div class="pinned-app" title="Edge">🌐</div>
+        <div class="pinned-app" title="Files">📁</div>
+        <div class="pinned-app" title="Store">🛍️</div>
+      </div>
+
+      <div class="tray">
+        <button class="system-button" aria-label="Network">📶</button>
+        <button class="system-button" aria-label="Volume">🔊</button>
+        <button class="system-button" aria-label="Battery">🔋</button>
+        <div class="clock" id="clock">1:51 PM<br>6/15/2021</div>
       </div>
     </div>
   </div>
 
   <script>
-    function updateTime() {
+    function updateClock() {
       const now = new Date();
       const hours = now.getHours();
       const minutes = String(now.getMinutes()).padStart(2, '0');
       const meridiem = hours >= 12 ? 'PM' : 'AM';
       const displayHours = hours % 12 || 12;
-      document.getElementById('time').textContent = displayHours + ':' + minutes + ' ' + meridiem;
+      const date = now.toLocaleDateString(undefined, { month: 'numeric', day: 'numeric', year: 'numeric' });
+      document.getElementById('clock').innerHTML = `${displayHours}:${minutes} ${meridiem}<br>${date}`;
     }
-    updateTime();
-    setInterval(updateTime, 60000);
+    updateClock();
+    setInterval(updateClock, 60000);
   </script>
 </body>
 </html>
