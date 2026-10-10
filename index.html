@@ -14,13 +14,13 @@
         html, body {
             width: 100%;
             height: 100%;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #1e1e1e;
+            font-family: 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #000;
             overflow: hidden;
         }
 
         body {
-            background: linear-gradient(135deg, #0d47a1 0%, #1565c0 50%, #0d47a1 100%);
+            background: linear-gradient(180deg, #0d47a1 0%, #1565c0 50%, #0d47a1 100%);
         }
 
         .desktop {
@@ -36,62 +36,68 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 24px;
             overflow: hidden;
         }
 
         .window {
-            background: #ffffff;
+            background: #fffbf5;
             width: 100%;
-            max-width: 900px;
-            height: 650px;
+            max-width: 940px;
+            height: 680px;
             border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            box-shadow: 
+                0 4px 6px rgba(0, 0, 0, 0.07),
+                0 10px 25px rgba(0, 0, 0, 0.1),
+                0 20px 50px rgba(0, 0, 0, 0.15);
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.06);
         }
 
         .title-bar {
-            background: #ffffff;
+            background: #faf9f8;
             color: #000;
-            padding: 12px 16px;
+            padding: 8px 8px 0 8px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            height: 48px;
+            align-items: flex-start;
+            height: 40px;
             user-select: none;
-            font-size: 14px;
-            font-weight: 500;
-            border-bottom: 1px solid #e5e5e5;
+            font-size: 13px;
+            font-weight: 400;
             flex-shrink: 0;
+            border-bottom: 1px solid #e7e6e5;
         }
 
         .title-bar-content {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
             flex: 1;
+            padding: 8px 0;
         }
 
         .title-bar-icon {
-            width: 24px;
-            height: 24px;
+            width: 16px;
+            height: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 12px;
         }
 
         .window-controls {
             display: flex;
             gap: 8px;
             align-items: center;
+            padding: 4px 8px 8px 0;
         }
 
         .window-button {
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             border: none;
             background: transparent;
             color: #000;
@@ -99,13 +105,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
-            border-radius: 6px;
-            transition: background 0.15s;
+            font-size: 14px;
+            border-radius: 4px;
+            transition: background 0.1s ease-out;
+            font-weight: 400;
         }
 
         .window-button:hover:not(.close) {
-            background: #f3f3f3;
+            background: rgba(0, 0, 0, 0.055);
+        }
+
+        .window-button:active:not(.close) {
+            background: rgba(0, 0, 0, 0.1);
         }
 
         .window-button.close:hover {
@@ -114,21 +125,21 @@
         }
 
         .window-button.close:active {
-            background: #e81123;
+            background: #f1707a;
+            opacity: 0.8;
         }
 
         .content-area {
             flex: 1;
             overflow-y: auto;
-            background: #ffffff;
+            background: #fffbf5;
             display: flex;
             flex-direction: column;
-            padding: 24px;
-            gap: 20px;
+            padding: 0;
         }
 
         .content-area::-webkit-scrollbar {
-            width: 12px;
+            width: 10px;
         }
 
         .content-area::-webkit-scrollbar-track {
@@ -136,138 +147,158 @@
         }
 
         .content-area::-webkit-scrollbar-thumb {
-            background: #d0d0d0;
-            border-radius: 6px;
+            background: #c5bfb8;
+            border-radius: 5px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
         }
 
         .content-area::-webkit-scrollbar-thumb:hover {
-            background: #a0a0a0;
+            background: #b3aca3;
+            border: 2px solid transparent;
+            background-clip: padding-box;
         }
 
-        .profile-header {
+        .content-wrapper {
+            padding: 20px 24px 24px 24px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .profile-section {
             display: flex;
-            gap: 20px;
+            gap: 16px;
             align-items: flex-start;
-            padding: 20px;
-            background: #f9f9f9;
-            border-radius: 8px;
+            margin-bottom: 24px;
         }
 
         .profile-avatar {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #0078d4 0%, #50e6ff 100%);
-            border-radius: 8px;
+            width: 96px;
+            height: 96px;
+            background: linear-gradient(135deg, #0078d4 0%, #50b4ff 100%);
+            border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 48px;
+            font-size: 44px;
             flex-shrink: 0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .profile-info h2 {
-            font-size: 20px;
+            font-size: 18px;
             color: #000;
-            margin-bottom: 4px;
-            font-weight: 600;
+            margin-bottom: 2px;
+            font-weight: 500;
+            letter-spacing: -0.3px;
         }
 
         .profile-info p {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 2px;
+            font-size: 13px;
+            color: #616161;
+            margin-bottom: 1px;
+            letter-spacing: -0.2px;
         }
 
         .profile-info .email {
             color: #0078d4;
             text-decoration: none;
-            font-size: 13px;
-            margin-top: 6px;
+            font-size: 12px;
+            margin-top: 4px;
+            display: inline-block;
+        }
+
+        .profile-info .email:hover {
+            text-decoration: underline;
         }
 
         .section {
-            margin-bottom: 8px;
+            margin-bottom: 20px;
         }
 
         .section-title {
-            font-size: 16px;
+            font-size: 13px;
             font-weight: 600;
             color: #000;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #0078d4;
+            margin-bottom: 10px;
+            letter-spacing: -0.2px;
         }
 
         .section-content {
-            font-size: 14px;
-            color: #333;
-            line-height: 1.6;
+            font-size: 12px;
+            color: #424242;
+            line-height: 1.5;
+            letter-spacing: -0.1px;
         }
 
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 12px;
-            margin-top: 12px;
-        }
-
-        .skill-card {
-            background: #f3f3f3;
-            padding: 12px 16px;
-            border-radius: 6px;
-            font-size: 13px;
-            color: #0078d4;
-            font-weight: 500;
-            border: 1px solid #e5e5e5;
-            text-align: center;
-            transition: all 0.2s;
-        }
-
-        .skill-card:hover {
-            background: #e8f4f8;
-            border-color: #0078d4;
-        }
-
-        .button-group {
+        .skills-container {
             display: flex;
-            gap: 12px;
-            margin-top: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .skill-tag {
+            background: #eae5df;
+            color: #0078d4;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid #ddd6ce;
+            transition: all 0.1s ease-out;
+            cursor: default;
+            letter-spacing: -0.2px;
+        }
+
+        .skill-tag:hover {
+            background: #e0d9d0;
+            border-color: #d0c8bf;
+        }
+
+        .buttons-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
             flex-wrap: wrap;
         }
 
         .btn {
-            border: none;
-            background: #0078d4;
-            color: white;
-            padding: 8px 20px;
-            font-size: 13px;
+            border: 1px solid #d0c8bf;
+            background: #f3f2f1;
+            color: #000;
+            padding: 6px 16px;
+            font-size: 12px;
             cursor: pointer;
-            border-radius: 6px;
+            border-radius: 4px;
             font-weight: 500;
             user-select: none;
-            transition: all 0.15s;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            transition: all 0.1s ease-out;
+            font-family: 'Segoe UI', sans-serif;
+            letter-spacing: -0.2px;
         }
 
         .btn:hover {
-            background: #106ebe;
-            box-shadow: 0 2px 8px rgba(0, 120, 212, 0.3);
+            background: #edebe9;
+            border-color: #c5bfb8;
         }
 
         .btn:active {
-            background: #005a9e;
-            transform: scale(0.98);
+            background: #e0d9d0;
         }
 
-        .btn.secondary {
-            background: transparent;
-            color: #0078d4;
-            border: 1px solid #0078d4;
+        .btn.primary {
+            background: #0078d4;
+            color: white;
+            border-color: #0078d4;
         }
 
-        .btn.secondary:hover {
-            background: #f3f3f3;
+        .btn.primary:hover {
+            background: #106ebe;
+            border-color: #106ebe;
+        }
+
+        .btn.primary:active {
+            background: #0066b2;
         }
 
         .taskbar {
@@ -275,19 +306,20 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 56px;
+            height: 58px;
             background: #202020;
             border-top: 1px solid #3f3f3f;
             display: flex;
             align-items: center;
-            padding: 0 12px;
+            padding: 0 8px;
             z-index: 1000;
-            gap: 12px;
+            gap: 0;
+            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.2);
         }
 
         .taskbar-start {
-            width: 48px;
-            height: 48px;
+            width: 52px;
+            height: 52px;
             background: transparent;
             border: none;
             color: white;
@@ -295,53 +327,67 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            border-radius: 4px;
-            transition: background 0.15s;
+            font-size: 22px;
+            border-radius: 0;
+            transition: background 0.1s ease-out;
+            margin-right: 4px;
         }
 
         .taskbar-start:hover {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .taskbar-start:active {
+            background: rgba(255, 255, 255, 0.12);
         }
 
         .taskbar-apps {
             display: flex;
-            gap: 8px;
+            gap: 4px;
             align-items: center;
-            flex: 1;
+            flex: 0;
             border-left: 1px solid #3f3f3f;
-            padding-left: 12px;
+            padding-left: 6px;
+            height: 52px;
         }
 
         .taskbar-app {
             width: 48px;
             height: 48px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: transparent;
+            border: 1px solid transparent;
             border-radius: 4px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            transition: all 0.15s;
+            font-size: 18px;
+            transition: all 0.1s ease-out;
         }
 
         .taskbar-app:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
         }
 
         .taskbar-app.active {
-            background: rgba(0, 120, 212, 0.3);
-            border-color: #0078d4;
+            background: rgba(255, 255, 255, 0.12);
+            border-top: 3px solid #0078d4;
+            border-color: transparent;
+            border-top-color: #0078d4;
+        }
+
+        .taskbar-spacer {
+            flex: 1;
         }
 
         .taskbar-system {
             display: flex;
-            gap: 4px;
+            gap: 0;
             align-items: center;
-            margin-left: auto;
+            border-left: 1px solid #3f3f3f;
+            padding-left: 8px;
+            height: 52px;
         }
 
         .system-icon {
@@ -354,9 +400,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
-            border-radius: 4px;
-            transition: background 0.15s;
+            font-size: 14px;
+            border-radius: 0;
+            transition: all 0.1s ease-out;
         }
 
         .system-icon:hover {
@@ -364,29 +410,36 @@
             background: rgba(255, 255, 255, 0.08);
         }
 
-        .time-display {
-            color: white;
-            font-size: 12px;
-            padding: 0 12px;
-            min-width: 50px;
-            text-align: center;
+        .system-icon:active {
+            background: rgba(255, 255, 255, 0.15);
         }
 
-        @media (max-width: 1024px) {
+        .time-display {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 11px;
+            padding: 0 12px;
+            min-width: 48px;
+            text-align: center;
+            font-weight: 400;
+            letter-spacing: 0.2px;
+        }
+
+        .divider {
+            width: 1px;
+            height: 32px;
+            background: #3f3f3f;
+            margin: 0 4px;
+        }
+
+        @media (max-width: 1200px) {
             .window {
-                max-width: 95%;
+                max-width: 90vw;
                 height: auto;
-                max-height: 80vh;
+                max-height: 75vh;
             }
 
-            .profile-header {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-
-            .skills-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .main-area {
+                padding: 12px;
             }
         }
     </style>
@@ -408,50 +461,47 @@
                 </div>
 
                 <div class="content-area">
-                    <div class="profile-header">
-                        <div class="profile-avatar">👤</div>
-                        <div class="profile-info">
-                            <h2>Your Name</h2>
-                            <p>Your Professional Title</p>
-                            <p style="font-size: 13px; margin-top: 8px;">Software Developer • Designer • Creative</p>
-                            <a href="#" class="email">user@example.com</a>
+                    <div class="content-wrapper">
+                        <div class="profile-section">
+                            <div class="profile-avatar">👤</div>
+                            <div class="profile-info">
+                                <h2>Your Name</h2>
+                                <p>Your Professional Title</p>
+                                <p>Software Developer · Designer · Creator</p>
+                                <a href="#" class="email">user@example.com</a>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="section">
-                        <div class="section-title">About</div>
-                        <div class="section-content">
-                            <p>Welcome to my profile! I'm a passionate developer and designer with expertise in creating beautiful, functional digital experiences. I enjoy solving complex problems and building innovative solutions that make a difference.</p>
+                        <div class="section">
+                            <div class="section-title">About</div>
+                            <div class="section-content">
+                                <p>Welcome to my profile. I'm a passionate developer and designer with a focus on creating elegant, functional digital experiences. I specialize in modern web technologies and user-centered design.</p>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="section">
-                        <div class="section-title">Skills</div>
-                        <div class="skills-grid">
-                            <div class="skill-card">Web Development</div>
-                            <div class="skill-card">UI/UX Design</div>
-                            <div class="skill-card">JavaScript</div>
-                            <div class="skill-card">React</div>
-                            <div class="skill-card">Problem Solving</div>
-                            <div class="skill-card">Leadership</div>
+                        <div class="section">
+                            <div class="section-title">Skills</div>
+                            <div class="skills-container">
+                                <div class="skill-tag">Web Development</div>
+                                <div class="skill-tag">UI Design</div>
+                                <div class="skill-tag">JavaScript</div>
+                                <div class="skill-tag">React</div>
+                                <div class="skill-tag">TypeScript</div>
+                                <div class="skill-tag">CSS</div>
+                                <div class="skill-tag">Problem Solving</div>
+                                <div class="skill-tag">Leadership</div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="section">
-                        <div class="section-title">Connect</div>
-                        <div class="button-group">
-                            <button class="btn">
-                                <span style="margin-right: 6px;">⚙️</span> GitHub
-                            </button>
-                            <button class="btn">
-                                <span style="margin-right: 6px;">💼</span> LinkedIn
-                            </button>
-                            <button class="btn">
-                                <span style="margin-right: 6px;">✉️</span> Email
-                            </button>
-                            <button class="btn secondary">
-                                <span style="margin-right: 6px;">🐦</span> Twitter
-                            </button>
+                        <div class="section">
+                            <div class="section-title">Connect</div>
+                            <div class="buttons-group">
+                                <button class="btn primary">GitHub</button>
+                                <button class="btn primary">LinkedIn</button>
+                                <button class="btn primary">Email</button>
+                                <button class="btn">Twitter</button>
+                                <button class="btn">Portfolio</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -459,20 +509,26 @@
         </div>
 
         <div class="taskbar">
-            <button class="taskbar-start">⊞</button>
+            <button class="taskbar-start" title="Start">⊞</button>
             <div class="taskbar-apps">
                 <div class="taskbar-app active" title="Profile">👤</div>
                 <div class="taskbar-app" title="Edge">🌐</div>
                 <div class="taskbar-app" title="Files">📁</div>
+                <div class="taskbar-app" title="Store">🛍️</div>
             </div>
+            <div class="taskbar-spacer"></div>
             <div class="taskbar-system">
                 <button class="system-icon" title="Search">🔍</button>
+                <div class="divider"></div>
                 <button class="system-icon" title="Widgets">☰</button>
                 <button class="system-icon" title="Chat">💬</button>
-                <button class="system-icon" title="Volume">🔊</button>
+                <div class="divider"></div>
+                <button class="system-icon" title="Sound">🔊</button>
                 <button class="system-icon" title="Battery">🔋</button>
+                <button class="system-icon" title="Network">📶</button>
+                <div class="divider"></div>
+                <div class="time-display" id="time">10:30 AM</div>
             </div>
-            <div class="time-display" id="time">10:30 AM</div>
         </div>
     </div>
 
@@ -486,12 +542,18 @@
             document.getElementById('time').textContent = displayHours + ':' + minutes + ' ' + ampm;
         }
         updateTime();
-        setInterval(updateTime, 1000);
+        setInterval(updateTime, 60000);
 
-        // Smooth scroll behavior
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
+        // Button click animations
+        document.querySelectorAll('.btn, .window-button, .system-icon').forEach(btn => {
+            btn.addEventListener('mousedown', function() {
+                this.style.transform = 'scale(0.98)';
+            });
+            btn.addEventListener('mouseup', function() {
+                this.style.transform = 'scale(1)';
+            });
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
             });
         });
     </script>
