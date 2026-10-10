@@ -3,24 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Windows 11 Red Desktop</title>
+  <title>Windows 11</title>
   <style>
     :root {
-      --bg-deep: #1d0909;
-      --bg-deep-2: #2d0c0c;
-      --bg-mid: #5f1010;
-      --bg-red: #e02424;
-      --bg-red-2: #ff4a4a;
-      --bg-red-3: #ff7a7a;
-      --taskbar-dark: rgba(18, 18, 18, 0.9);
-      --panel: rgba(255,255,255,0.74);
-      --panel-strong: rgba(255,255,255,0.88);
-      --text: #111111;
-      --muted: #4d4d4d;
-      --shadow: 0 18px 36px rgba(0,0,0,0.35);
+      --primary: #0078d4;
+      --primary-hover: #106ebe;
+      --primary-press: #0066b2;
       --accent: #c42b1c;
-      --blue: #0078d4;
-      --blue-2: #0a84ff;
+      --text-light: #ffffff;
+      --text-dark: #111111;
+      --text-muted: #5d5d5d;
+      --surface: rgba(255,255,255,0.95);
+      --surface-alt: rgba(245,245,245,0.98);
+      --bg-taskbar: rgba(17,17,17,0.78);
+      --bg-mica: rgba(248,248,248,0.74);
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.12);
+      --shadow: 0 8px 24px rgba(0,0,0,0.18);
+      --border: rgba(0,0,0,0.06);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -31,11 +30,10 @@
       background: #000;
       overflow: hidden;
       font-family: "Segoe UI Variable", "Segoe UI", sans-serif;
-      color: var(--text);
+      color: var(--text-dark);
     }
 
     body {
-      position: relative;
       background:
         radial-gradient(circle at 62% 30%, rgba(255, 120, 120, 0.18), transparent 16%),
         radial-gradient(circle at 58% 78%, rgba(255, 40, 40, 0.12), transparent 18%),
@@ -45,51 +43,41 @@
     .wallpaper {
       position: absolute;
       inset: 0;
-      overflow: hidden;
-      background:
-        linear-gradient(180deg, rgba(0,0,0,0.22), rgba(0,0,0,0.28)),
-        radial-gradient(circle at 58% 18%, rgba(255,132,132,0.18), transparent 8%),
-        radial-gradient(circle at 42% 32%, rgba(255, 70, 70, 0.14), transparent 20%);
+      z-index: 0;
     }
 
     .bloom {
       position: absolute;
       inset: -8% -5% -12% -5%;
       pointer-events: none;
-      filter: saturate(1.2);
-    }
-
-    .bloom::before,
-    .bloom::after {
-      content: "";
-      position: absolute;
-      border-radius: 50% 40% 45% 65% / 52% 44% 56% 48%;
-      transform: rotate(-12deg);
-      box-shadow: inset 0 0 12px rgba(255,255,255,0.08), 0 0 28px rgba(255,0,0,0.08);
     }
 
     .bloom::before {
+      content: "";
+      position: absolute;
       width: 92vw;
       height: 78vh;
       left: 50%;
       top: 12%;
       transform: translateX(-50%) rotate(-20deg);
-      background:
-        linear-gradient(135deg, rgba(255,68,68,0.96), rgba(255,18,18,0.95) 18%, rgba(130,0,0,0.9) 30%, rgba(255,29,29,0.84) 48%, rgba(255,0,0,0.92) 70%, rgba(130,0,0,0.92) 100%);
+      background: linear-gradient(135deg, rgba(255,68,68,0.96), rgba(255,18,18,0.95) 18%, rgba(130,0,0,0.9) 30%, rgba(255,29,29,0.84) 48%, rgba(255,0,0,0.92) 70%, rgba(130,0,0,0.92) 100%);
       clip-path: polygon(18% 0%, 82% 0%, 100% 24%, 100% 78%, 76% 100%, 55% 96%, 32% 100%, 0% 76%, 0% 24%);
       opacity: 0.95;
+      border-radius: 50% 40% 45% 65%;
     }
 
     .bloom::after {
+      content: "";
+      position: absolute;
       width: 76vw;
       height: 68vh;
       left: 52%;
       bottom: -10%;
       transform: translateX(-50%) rotate(18deg);
-      background:
-        linear-gradient(135deg, rgba(255,97,97,0.98), rgba(255,18,18,0.94) 20%, rgba(180,0,0,0.92) 36%, rgba(255,36,36,0.98) 58%, rgba(120,0,0,0.95) 82%, rgba(255,72,72,0.98) 100%);
+      background: linear-gradient(135deg, rgba(255,97,97,0.98), rgba(255,18,18,0.94) 20%, rgba(180,0,0,0.92) 36%, rgba(255,36,36,0.98) 58%, rgba(120,0,0,0.95) 82%, rgba(255,72,72,0.98) 100%);
       clip-path: polygon(15% 0%, 80% 0%, 100% 18%, 100% 76%, 80% 100%, 18% 100%, 0% 80%, 0% 16%);
       opacity: 0.98;
+      border-radius: 50% 40% 45% 65%;
       filter: blur(0.2px);
     }
 
@@ -97,7 +85,15 @@
       position: relative;
       width: 100%;
       height: 100%;
+      display: flex;
+      flex-direction: column;
       z-index: 1;
+    }
+
+    .desktop-area {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
     }
 
     .desktop-icons {
@@ -106,9 +102,8 @@
       top: 14px;
       display: flex;
       flex-direction: column;
-      align-items: center;
       gap: 12px;
-      z-index: 2;
+      z-index: 3;
     }
 
     .desktop-icon {
@@ -133,22 +128,20 @@
       display: grid;
       place-items: center;
       font-size: 20px;
+      transition: all 0.1s ease;
     }
 
     .desktop-icon .label {
-      display: block;
       max-width: 88px;
       text-align: center;
       font-size: 12px;
       line-height: 1.1;
-      letter-spacing: 0.1px;
       white-space: normal;
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.8);
     }
 
     .desktop-icon:hover .icon-shape {
@@ -159,78 +152,161 @@
     .desktop-icon.selected .icon-shape {
       background: linear-gradient(180deg, rgba(63, 132, 255, 0.82), rgba(91, 156, 255, 0.65));
       border: 1px solid rgba(255,255,255,0.8);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.28), 0 0 0 1px rgba(255,255,255,0.15);
     }
 
-    .desktop-icon.selected .label {
-      text-shadow: 0 0 0 rgba(0,0,0,0);
+    .window {
+      position: absolute;
+      width: 520px;
+      height: 400px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+      touch-action: none;
+      min-width: 280px;
+      min-height: 200px;
     }
 
-    .center-panel {
+    .window.minimized {
+      display: none;
+    }
+
+    .window-title-bar {
+      height: 32px;
+      background: var(--surface-alt);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      cursor: move;
+      border-radius: 10px 10px 0 0;
+      user-select: none;
+    }
+
+    .window-title-bar h3 {
+      font-size: 14px;
+      font-weight: 500;
+      flex: 1;
+      margin-left: 6px;
+    }
+
+    .window-controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    .window-btn {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: transparent;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dark);
+      font-size: 13px;
+      transition: background 0.1s ease;
+    }
+
+    .window-btn:hover {
+      background: rgba(0,0,0,0.06);
+    }
+
+    .window-btn.close:hover {
+      background: #c42b1c;
+      color: white;
+    }
+
+    .window-content {
+      flex: 1;
+      overflow: auto;
+      padding: 16px;
+      background: var(--surface);
+    }
+
+    .window-content::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .window-content::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .window-content::-webkit-scrollbar-thumb {
+      background: rgba(0,0,0,0.16);
+      border-radius: 5px;
+    }
+
+    .window-content::-webkit-scrollbar-thumb:hover {
+      background: rgba(0,0,0,0.24);
+    }
+
+    .start-menu {
       position: absolute;
       left: 50%;
       top: 50%;
       width: min(840px, 74vw);
       height: min(628px, 68vh);
-      transform: translate(-50%, -50%);
-      border-radius: 18px;
-      background: rgba(255,255,255,0.14);
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 30px 60px rgba(0,0,0,0.14);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      z-index: 2;
-      animation: menuFadeIn 0.18s ease-out;
-    }
-
-    @keyframes menuFadeIn {
-      from { opacity: 0; transform: translate(-50%, -48%); }
-      to { opacity: 1; transform: translate(-50%, -50%); }
-    }
-
-    .start-menu {
-      width: min(760px, 70vw);
-      height: min(540px, 62vh);
-      margin-top: 22px;
+      transform: translate(-50%, -50%) scale(1);
       background: rgba(248,248,248,0.78);
       border: 1px solid rgba(255,255,255,0.4);
       border-radius: 18px;
-      box-shadow: 0 10px 26px rgba(0,0,0,0.18);
-      padding: 18px 18px 12px 18px;
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.14);
+      backdrop-filter: blur(15px);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      z-index: 50;
+      animation: menuFadeIn 0.18s ease-out;
+      pointer-events: auto;
+    }
+
+    @keyframes menuFadeIn {
+      from { opacity: 0; transform: translate(-50%, -48%) scale(0.92); }
+      to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    }
+
+    .start-menu.hidden {
+      display: none;
     }
 
     .menu-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      color: #111;
       margin-bottom: 18px;
-      padding: 8px 2px 0 2px;
+      padding: 0 2px;
     }
 
-    .menu-head h3 {
-      font-size: 19px;
+    .menu-head h2 {
+      font-size: 20px;
       font-weight: 600;
-      letter-spacing: -0.3px;
     }
 
-    .all-apps {
+    .all-apps-btn {
       font-size: 12px;
       color: #3b3b3b;
-      border-radius: 8px;
-      padding: 5px 8px;
       background: rgba(255,255,255,0.30);
       border: 1px solid rgba(0,0,0,0.04);
+      border-radius: 8px;
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: background 0.1s ease;
+    }
+
+    .all-apps-btn:hover {
+      background: rgba(255,255,255,0.5);
     }
 
     .modules {
       display: grid;
-      grid-template-columns: repeat(6, minmax(62px, 1fr));
+      grid-template-columns: repeat(6, 1fr);
       gap: 12px 10px;
       margin-bottom: 24px;
     }
@@ -240,13 +316,12 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 10px 6px 12px 6px;
+      padding: 10px 6px 12px;
       border-radius: 10px;
       gap: 8px;
-      min-height: 90px;
       text-align: center;
-      color: #1d1d1d;
-      transition: background 0.12s ease;
+      transition: background 0.1s ease;
+      cursor: pointer;
     }
 
     .app-tile:hover {
@@ -267,54 +342,41 @@
     .app-label {
       font-size: 11px;
       line-height: 1.15;
-      letter-spacing: -0.1px;
-    }
-
-    .menu-divider {
-      height: 1px;
-      background: rgba(0,0,0,0.06);
-      margin: 0 2px 14px 2px;
+      color: #1d1d1d;
     }
 
     .rec-header {
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       margin-bottom: 12px;
-      padding: 0 2px;
       color: #111;
     }
 
     .rec-header h4 {
       font-size: 18px;
       font-weight: 600;
-      letter-spacing: -0.2px;
-    }
-
-    .more {
-      font-size: 12px;
-      color: #3a3a3a;
-      border-radius: 8px;
-      padding: 5px 8px;
-      background: rgba(255,255,255,0.2);
-      border: 1px solid rgba(0,0,0,0.04);
     }
 
     .rec-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(160px, 1fr));
-      gap: 12px 14px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
     }
 
     .rec-item {
       display: flex;
-      align-items: center;
       gap: 10px;
       padding: 8px 10px;
       background: rgba(255,255,255,0.26);
       border-radius: 10px;
-      min-height: 64px;
       border: 1px solid rgba(0,0,0,0.02);
+      cursor: pointer;
+      transition: background 0.1s ease;
+    }
+
+    .rec-item:hover {
+      background: rgba(255,255,255,0.4);
     }
 
     .rec-icon {
@@ -324,14 +386,17 @@
       display: grid;
       place-items: center;
       background: linear-gradient(180deg, #f7f7f7, #ebebeb);
-      color: #0b0b0b;
       font-size: 16px;
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.03);
       flex-shrink: 0;
     }
 
-    .rec-name {
+    .rec-text {
+      display: flex;
+      flex-direction: column;
       font-size: 12px;
+    }
+
+    .rec-name {
       color: #141414;
       font-weight: 500;
     }
@@ -340,53 +405,6 @@
       font-size: 11px;
       color: #5d5d5d;
       margin-top: 2px;
-    }
-
-    .profile-strip {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 16px 10px 16px;
-      border-top: 1px solid rgba(0,0,0,0.04);
-      background: rgba(255,255,255,0.12);
-      border-bottom-left-radius: 18px;
-      border-bottom-right-radius: 18px;
-    }
-
-    .account {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 14px;
-      font-weight: 600;
-      color: #111;
-    }
-
-    .account .avatar {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #8d8d8d, #d9d9d9);
-      display: grid;
-      place-items: center;
-      font-size: 15px;
-      color: #111;
-    }
-
-    .power {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      border: 1px solid rgba(0,0,0,0.08);
-      display: grid;
-      place-items: center;
-      background: rgba(255,255,255,0.4);
-      font-size: 18px;
-      color: #222;
     }
 
     .taskbar {
@@ -398,134 +416,177 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 0 10px 0 12px;
-      background: rgba(17,17,17,0.78);
+      padding: 0 12px;
+      background: var(--bg-taskbar);
       border-top: 1px solid rgba(255,255,255,0.08);
       backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
       z-index: 20;
     }
 
-    .taskbar-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      height: 100%;
-    }
-
-    .start-button {
+    .start-btn {
       width: 42px;
       height: 42px;
-      border-radius: 8px;
       border: none;
+      border-radius: 8px;
       background: transparent;
-      display: grid;
-      place-items: center;
       color: white;
       font-size: 18px;
       cursor: pointer;
-      transition: background 0.12s ease;
-    }
-
-    .start-button:hover {
-      background: rgba(255,255,255,0.08);
-    }
-
-    .search-button, .task-button, .widget-button, .system-button {
-      width: 38px;
-      height: 38px;
-      border: none;
-      border-radius: 8px;
-      background: transparent;
-      color: rgba(255,255,255,0.9);
       display: grid;
       place-items: center;
-      cursor: pointer;
-      transition: background 0.12s ease;
-      font-size: 17px;
+      transition: background 0.1s ease;
     }
 
-    .search-button:hover, .task-button:hover, .widget-button:hover, .system-button:hover {
+    .start-btn:hover {
       background: rgba(255,255,255,0.08);
     }
 
-    .taskbar-center {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      height: 100%;
+    .start-btn.active {
+      background: rgba(255,255,255,0.15);
     }
 
-    .pinned-app {
+    .taskbar-sep {
+      width: 1px;
+      height: 24px;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .taskbar-apps {
+      display: flex;
+      gap: 6px;
+      flex: 1;
+      max-width: 400px;
+    }
+
+    .taskbar-app {
       width: 40px;
       height: 40px;
-      display: grid;
-      place-items: center;
-      border-radius: 10px;
+      border: none;
+      border-radius: 8px;
       background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.03);
       color: rgba(255,255,255,0.9);
+      font-size: 16px;
       cursor: pointer;
-      transition: background 0.12s ease, border-color 0.12s ease;
       position: relative;
+      transition: all 0.1s ease;
+      display: grid;
+      place-items: center;
     }
 
-    .pinned-app:hover {
+    .taskbar-app:hover {
       background: rgba(255,255,255,0.08);
       border-color: rgba(255,255,255,0.08);
     }
 
-    .pinned-app.active {
+    .taskbar-app.active {
       background: rgba(255,255,255,0.12);
-      border-color: rgba(255,255,255,0.14);
     }
 
-    .pinned-app.active::after {
+    .taskbar-app.active::after {
       content: "";
       position: absolute;
-      left: 8px;
-      right: 8px;
+      left: 6px;
+      right: 6px;
       bottom: -5px;
       height: 3px;
-      background: var(--blue-2);
-      border-radius: 99px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    .taskbar-spacer {
+      flex: 1;
     }
 
     .tray {
       display: flex;
+      gap: 4px;
       align-items: center;
-      gap: 2px;
-      height: 100%;
-      margin-left: 8px;
-      border-left: 1px solid rgba(255,255,255,0.08);
       padding-left: 8px;
+      border-left: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .tray-icon {
+      width: 38px;
+      height: 38px;
+      border: none;
+      background: transparent;
+      color: rgba(255,255,255,0.8);
+      border-radius: 8px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      transition: background 0.1s ease;
+    }
+
+    .tray-icon:hover {
+      background: rgba(255,255,255,0.08);
     }
 
     .clock {
       min-width: 64px;
-      text-align: center;
+      text-align: right;
       color: rgba(255,255,255,0.9);
       font-size: 11px;
       line-height: 1.3;
-      padding: 0 6px;
+      padding: 0 8px;
     }
 
-    .desktop-icon.default {
-      opacity: 0.98;
+    .profile-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .account {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #111;
+    }
+
+    .avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #8d8d8d, #d9d9d9);
+      display: grid;
+      place-items: center;
+      font-size: 15px;
+    }
+
+    .power-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: rgba(255,255,255,0.4);
+      font-size: 18px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      color: #222;
+      transition: background 0.1s ease;
+    }
+
+    .power-btn:hover {
+      background: rgba(255,255,255,0.6);
     }
 
     @media (max-width: 980px) {
-      .center-panel { width: min(680px, 82vw); }
-      .start-menu { width: min(620px, 80vw); }
-      .modules { grid-template-columns: repeat(4, minmax(60px, 1fr)); }
+      .start-menu { width: min(680px, 82vw); }
+      .modules { grid-template-columns: repeat(4, 1fr); }
     }
 
     @media (max-width: 700px) {
-      .modules { grid-template-columns: repeat(3, minmax(60px, 1fr)); }
+      .modules { grid-template-columns: repeat(3, 1fr); }
       .rec-grid { grid-template-columns: 1fr; }
-      .start-menu { height: auto; min-height: 460px; }
     }
   </style>
 </head>
@@ -535,155 +596,396 @@
   </div>
 
   <div class="desktop">
-    <div class="desktop-icons">
-      <div class="desktop-icon selected default">
-        <div class="icon-shape">🗑️</div>
-        <div class="label">Recycle Bin</div>
+    <div class="desktop-area">
+      <div class="desktop-icons">
+        <div class="desktop-icon" data-app="recycle" onclick="openWindow(event, 'recycle')">
+          <div class="icon-shape">🗑️</div>
+          <div class="label">Recycle Bin</div>
+        </div>
       </div>
-    </div>
 
-    <div class="center-panel">
-      <div class="start-menu">
+      <div id="windows-container"></div>
+
+      <div class="start-menu hidden" id="startMenu">
         <div class="menu-head">
-          <h3>Pinned</h3>
-          <div class="all-apps">All apps</div>
+          <h2>Pinned</h2>
+          <button class="all-apps-btn">All apps</button>
         </div>
 
         <div class="modules">
-          <div class="app-tile">
+          <div class="app-tile" onclick="openWindow(event, 'edge')">
             <div class="app-icon">🌐</div>
             <div class="app-label">Microsoft Edge</div>
           </div>
-          <div class="app-tile">
-            <div class="app-icon">📝</div>
-            <div class="app-label">Word</div>
+          <div class="app-tile" onclick="openWindow(event, 'files')">
+            <div class="app-icon">📁</div>
+            <div class="app-label">File Explorer</div>
           </div>
-          <div class="app-tile">
-            <div class="app-icon">📊</div>
-            <div class="app-label">Excel</div>
-          </div>
-          <div class="app-tile">
-            <div class="app-icon">📑</div>
-            <div class="app-label">PowerPoint</div>
-          </div>
-          <div class="app-tile">
-            <div class="app-icon">✉️</div>
-            <div class="app-label">Mail</div>
-          </div>
-          <div class="app-tile">
-            <div class="app-icon">📅</div>
-            <div class="app-label">Calendar</div>
-          </div>
-          <div class="app-tile">
-            <div class="app-icon">🖼️</div>
-            <div class="app-label">Photos</div>
-          </div>
-          <div class="app-tile">
+          <div class="app-tile" onclick="openWindow(event, 'settings')">
             <div class="app-icon">⚙️</div>
             <div class="app-label">Settings</div>
           </div>
-          <div class="app-tile">
+          <div class="app-tile" onclick="openWindow(event, 'notepad')">
+            <div class="app-icon">📝</div>
+            <div class="app-label">Notepad</div>
+          </div>
+          <div class="app-tile" onclick="openWindow(event, 'calculator')">
             <div class="app-icon">🧮</div>
             <div class="app-label">Calculator</div>
           </div>
-          <div class="app-tile">
-            <div class="app-icon">🗂️</div>
-            <div class="app-label">Files</div>
-          </div>
-          <div class="app-tile">
+          <div class="app-tile" onclick="openWindow(event, 'store')">
             <div class="app-icon">🛍️</div>
             <div class="app-label">Store</div>
           </div>
-          <div class="app-tile">
-            <div class="app-icon">🎮</div>
-            <div class="app-label">Xbox</div>
-          </div>
         </div>
 
-        <div class="menu-divider"></div>
+        <div style="height: 1px; background: rgba(0,0,0,0.06); margin: 0 0 14px 0;"></div>
 
         <div class="rec-header">
           <h4>Recommended</h4>
-          <div class="more">More</div>
+          <div class="all-apps-btn">More</div>
         </div>
 
-        <div class="rec-grid">
-          <div class="rec-item">
-            <div class="rec-icon">🚀</div>
-            <div>
-              <div class="rec-name">Get Started</div>
-              <div class="rec-meta">Welcome to Windows</div>
+        <div class="rec-grid" style="margin-bottom: 12px;">
+          <div class="rec-item" onclick="openWindow(event, 'files')">
+            <div class="rec-icon">📂</div>
+            <div class="rec-text">
+              <div class="rec-name">Downloads</div>
+              <div class="rec-meta">Folder</div>
             </div>
           </div>
-          <div class="rec-item">
-            <div class="rec-icon">🧩</div>
-            <div>
-              <div class="rec-name">PowerShell</div>
-              <div class="rec-meta">Pinned app</div>
-            </div>
-          </div>
-          <div class="rec-item">
-            <div class="rec-icon">🪟</div>
-            <div>
-              <div class="rec-name">Windows Setup</div>
-              <div class="rec-meta">Recent</div>
-            </div>
-          </div>
-          <div class="rec-item">
-            <div class="rec-icon">💾</div>
-            <div>
-              <div class="rec-name">File Explorer</div>
-              <div class="rec-meta">Most used</div>
+          <div class="rec-item" onclick="openWindow(event, 'settings')">
+            <div class="rec-icon">⚙️</div>
+            <div class="rec-text">
+              <div class="rec-name">System Settings</div>
+              <div class="rec-meta">Control Panel</div>
             </div>
           </div>
         </div>
 
-        <div class="profile-strip">
+        <div class="profile-footer">
           <div class="account">
             <div class="avatar">👤</div>
             <div>Your Name</div>
           </div>
-          <div class="power">⏻</div>
+          <div class="power-btn">⏻</div>
         </div>
       </div>
     </div>
 
     <div class="taskbar">
-      <div class="taskbar-left">
-        <button class="start-button" aria-label="Start">⊞</button>
-        <button class="search-button" aria-label="Search">⌕</button>
-        <button class="task-button" aria-label="Task View">▣</button>
-        <button class="widget-button" aria-label="Widgets">▤</button>
-      </div>
-
-      <div class="taskbar-center">
-        <div class="pinned-app active" title="Profile">👤</div>
-        <div class="pinned-app" title="Edge">🌐</div>
-        <div class="pinned-app" title="Files">📁</div>
-        <div class="pinned-app" title="Store">🛍️</div>
-      </div>
-
+      <button class="start-btn" id="startBtn" onclick="toggleStartMenu()">⊞</button>
+      <div class="taskbar-sep"></div>
+      <div class="taskbar-apps" id="taskbarApps"></div>
+      <div class="taskbar-spacer"></div>
       <div class="tray">
-        <button class="system-button" aria-label="Network">📶</button>
-        <button class="system-button" aria-label="Volume">🔊</button>
-        <button class="system-button" aria-label="Battery">🔋</button>
-        <div class="clock" id="clock">1:51 PM<br>6/15/2021</div>
+        <button class="tray-icon">📶</button>
+        <button class="tray-icon">🔊</button>
+        <button class="tray-icon">🔋</button>
+        <div class="clock" id="clock">1:51 PM<br>6/15</div>
       </div>
     </div>
   </div>
 
   <script>
+    const apps = {
+      recycle: {
+        title: 'Recycle Bin',
+        icon: '🗑️',
+        width: 520,
+        height: 400,
+        html: '<div style="padding: 20px;"><h3>Recycle Bin</h3><p style="margin-top: 12px; color: #5d5d5d; font-size: 14px;">This folder is empty.</p></div>'
+      },
+      edge: {
+        title: 'Microsoft Edge',
+        icon: '🌐',
+        width: 800,
+        height: 500,
+        html: '<iframe src="https://www.bing.com" style="width: 100%; height: 100%; border: none;"></iframe>'
+      },
+      files: {
+        title: 'File Explorer - Home',
+        icon: '📁',
+        width: 700,
+        height: 480,
+        html: `
+          <div style="padding: 12px; font-size: 13px;">
+            <div style="margin-bottom: 12px; display: flex; gap: 6px;">
+              <button style="padding: 6px 12px; background: #f3f2f1; border: 1px solid #d0c8bf; border-radius: 4px; cursor: pointer;">Back</button>
+              <button style="padding: 6px 12px; background: #f3f2f1; border: 1px solid #d0c8bf; border-radius: 4px; cursor: pointer;">Forward</button>
+            </div>
+            <div style="margin-bottom: 12px; display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 12px;">
+              <div style="text-align: center; cursor: pointer; padding: 8px; border-radius: 6px; hover: background: rgba(0,0,0,0.05);">
+                <div style="font-size: 24px;">📂</div>
+                <div style="font-size: 11px; margin-top: 4px; word-break: break-word;">Documents</div>
+              </div>
+              <div style="text-align: center; cursor: pointer; padding: 8px; border-radius: 6px;">
+                <div style="font-size: 24px;">📷</div>
+                <div style="font-size: 11px; margin-top: 4px;">Pictures</div>
+              </div>
+              <div style="text-align: center; cursor: pointer; padding: 8px; border-radius: 6px;">
+                <div style="font-size: 24px;">🎵</div>
+                <div style="font-size: 11px; margin-top: 4px;">Music</div>
+              </div>
+              <div style="text-align: center; cursor: pointer; padding: 8px; border-radius: 6px;">
+                <div style="font-size: 24px;">📥</div>
+                <div style="font-size: 11px; margin-top: 4px;">Downloads</div>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      settings: {
+        title: 'Settings',
+        icon: '⚙️',
+        width: 720,
+        height: 500,
+        html: `
+          <div style="display: flex; height: 100%;">
+            <div style="width: 200px; background: #f9f9f9; border-right: 1px solid #e0e0e0; padding: 12px 0; font-size: 13px;">
+              <div style="padding: 8px 12px; cursor: pointer; hover: background: #e8e8e8;">System</div>
+              <div style="padding: 8px 12px; cursor: pointer; background: #e3f2fd;">Display</div>
+              <div style="padding: 8px 12px; cursor: pointer;">Personalization</div>
+              <div style="padding: 8px 12px; cursor: pointer;">Apps</div>
+              <div style="padding: 8px 12px; cursor: pointer;">Accounts</div>
+            </div>
+            <div style="flex: 1; padding: 20px;">
+              <h3 style="margin-bottom: 12px;">Display settings</h3>
+              <div style="font-size: 13px; color: #5d5d5d;">
+                <div style="margin-bottom: 16px;">
+                  <label style="display: block; margin-bottom: 6px;">Brightness</label>
+                  <input type="range" style="width: 200px;" value="100" min="0" max="100">
+                </div>
+                <div>
+                  <label style="display: block; margin-bottom: 6px;">Night light</label>
+                  <input type="checkbox">
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      notepad: {
+        title: 'Notepad',
+        icon: '📝',
+        width: 640,
+        height: 480,
+        html: '<textarea style="width: 100%; height: 100%; border: none; padding: 12px; font-family: Consolas, monospace; font-size: 13px; resize: none; outline: none;">Type here...</textarea>'
+      },
+      calculator: {
+        title: 'Calculator',
+        icon: '🧮',
+        width: 320,
+        height: 420,
+        html: `
+          <div style="padding: 12px;">
+            <input type="text" value="0" style="width: 100%; padding: 12px; font-size: 18px; border: 1px solid #d0c8bf; border-radius: 4px; text-align: right; margin-bottom: 12px;">
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;">
+              <button style="padding: 12px; border: 1px solid #d0c8bf; background: #f3f2f1; border-radius: 4px; cursor: pointer;">7</button>
+              <button style="padding: 12px; border: 1px solid #d0c8bf; background: #f3f2f1; border-radius: 4px; cursor: pointer;">8</button>
+              <button style="padding: 12px; border: 1px solid #d0c8bf; background: #f3f2f1; border-radius: 4px; cursor: pointer;">9</button>
+              <button style="padding: 12px; border: 1px solid #d0c8bf; background: #f3f2f1; border-radius: 4px; cursor: pointer;">÷</button>
+              <button style="padding: 12px; border: 1px solid #d0c8bf; background: #f3f2f1; border-radius: 4px; cursor: pointer;">4</button>
+              <button style="padding: 12px; border: 1px solid #d0c8bf; background: #f3f2f1; border-radius: 4px; cursor: pointer;">5</button>
+              <button style="padding: 12px; border: 1px solid #d0c8bf; background: #f3f2f1; border-radius: 4px; cursor: pointer;">6</button>
+              <button style="padding: 12px; border: 1px solid #d0c8bf; background: #f3f2f1; border-radius: 4px; cursor: pointer;">×</button>
+              <button style="padding: 12px; border: 1px solid #d0c8bf; background: #f3f2f1; border-radius: 4px; cursor: pointer;">1</button>
+              <button style="padding: 12px; border: 1px solid #d0c8bf; background: #f3f2f1; border-radius: 4px; cursor: pointer;">2</button>
+              <button style="padding: 12px; border: 1px solid #d0c8bf; background: #f3f2f1; border-radius: 4px; cursor: pointer;">3</button>
+              <button style="padding: 12px; border: 1px solid #d0c8bf; background: #f3f2f1; border-radius: 4px; cursor: pointer;">−</button>
+              <button style="padding: 12px; border: 1px solid #d0c8bf; background: #f3f2f1; border-radius: 4px; cursor: pointer;">0</button>
+              <button style="padding: 12px; border: 1px solid #d0c8bf; background: #f3f2f1; border-radius: 4px; cursor: pointer;">.</button>
+              <button style="padding: 12px; border: 1px solid #d0c8bf; background: #f3f2f1; border-radius: 4px; cursor: pointer;">=</button>
+              <button style="padding: 12px; border: 1px solid #d0c8bf; background: #f3f2f1; border-radius: 4px; cursor: pointer;">+</button>
+            </div>
+          </div>
+        `
+      },
+      store: {
+        title: 'Microsoft Store',
+        icon: '🛍️',
+        width: 720,
+        height: 500,
+        html: '<div style="padding: 20px;"><h3>Microsoft Store</h3><p style="margin-top: 12px; color: #5d5d5d; font-size: 14px;">Featured apps and content available here.</p></div>'
+      }
+    };
+
+    let windows = {};
+    let windowOrder = [];
+    let dragState = null;
+
+    function openWindow(event, appId) {
+      event.stopPropagation();
+      if (event.target.closest('.start-menu')) toggleStartMenu();
+
+      const app = apps[appId];
+      if (!app) return;
+
+      const existingId = Object.keys(windows).find(id => windows[id].appId === appId);
+      if (existingId) {
+        focusWindow(existingId);
+        return;
+      }
+
+      const id = `win-${Date.now()}`;
+      windows[id] = {
+        appId,
+        x: 60 + Math.random() * 40,
+        y: 80 + Math.random() * 40,
+        width: app.width,
+        height: app.height,
+        minimized: false
+      };
+
+      windowOrder = windowOrder.filter(w => w !== id);
+      windowOrder.push(id);
+
+      renderWindow(id);
+      updateTaskbar();
+      focusWindow(id);
+    }
+
+    function renderWindow(id) {
+      const win = windows[id];
+      const app = apps[win.appId];
+      const el = document.createElement('div');
+      el.className = `window ${win.minimized ? 'minimized' : ''}`;
+      el.id = id;
+      el.style.left = win.x + 'px';
+      el.style.top = win.y + 'px';
+      el.style.width = win.width + 'px';
+      el.style.height = win.height + 'px';
+      el.style.zIndex = windowOrder.indexOf(id) + 10;
+
+      el.innerHTML = `
+        <div class="window-title-bar">
+          <span style="font-size: 14px;">${app.icon}</span>
+          <h3>${app.title}</h3>
+          <div class="window-controls">
+            <button class="window-btn">−</button>
+            <button class="window-btn">◻</button>
+            <button class="window-btn close">✕</button>
+          </div>
+        </div>
+        <div class="window-content">${app.html}</div>
+      `;
+
+      const existing = document.getElementById(id);
+      if (existing) existing.replaceWith(el);
+      else document.getElementById('windows-container').appendChild(el);
+
+      el.addEventListener('mousedown', () => focusWindow(id));
+
+      const titleBar = el.querySelector('.window-title-bar');
+      titleBar.addEventListener('mousedown', e => startDrag(e, id));
+
+      const closBtn = el.querySelector('.window-btn.close');
+      closBtn.addEventListener('click', () => closeWindow(id));
+
+      const minBtn = el.querySelector('.window-btn:nth-child(1)');
+      minBtn.addEventListener('click', () => minimizeWindow(id));
+    }
+
+    function focusWindow(id) {
+      windowOrder = windowOrder.filter(w => w !== id);
+      windowOrder.push(id);
+      windowOrder.forEach((wid, idx) => {
+        const el = document.getElementById(wid);
+        if (el) el.style.zIndex = idx + 10;
+      });
+      updateTaskbar();
+    }
+
+    function closeWindow(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+      delete windows[id];
+      windowOrder = windowOrder.filter(w => w !== id);
+      updateTaskbar();
+    }
+
+    function minimizeWindow(id) {
+      windows[id].minimized = !windows[id].minimized;
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('minimized');
+      updateTaskbar();
+    }
+
+    function startDrag(e, id) {
+      const win = windows[id];
+      const rect = document.getElementById(id).getBoundingClientRect();
+      dragState = { id, startX: e.clientX, startY: e.clientY, winX: win.x, winY: win.y };
+      document.addEventListener('mousemove', drag);
+      document.addEventListener('mouseup', stopDrag);
+    }
+
+    function drag(e) {
+      if (!dragState) return;
+      const dx = e.clientX - dragState.startX;
+      const dy = e.clientY - dragState.startY;
+      windows[dragState.id].x = dragState.winX + dx;
+      windows[dragState.id].y = dragState.winY + dy;
+      const el = document.getElementById(dragState.id);
+      if (el) {
+        el.style.left = windows[dragState.id].x + 'px';
+        el.style.top = windows[dragState.id].y + 'px';
+      }
+    }
+
+    function stopDrag() {
+      dragState = null;
+      document.removeEventListener('mousemove', drag);
+      document.removeEventListener('mouseup', stopDrag);
+    }
+
+    function toggleStartMenu() {
+      const menu = document.getElementById('startMenu');
+      menu.classList.toggle('hidden');
+      const btn = document.getElementById('startBtn');
+      btn.classList.toggle('active');
+    }
+
+    function updateTaskbar() {
+      const bar = document.getElementById('taskbarApps');
+      bar.innerHTML = '';
+      windowOrder.forEach(id => {
+        const win = windows[id];
+        const app = apps[win.appId];
+        const btn = document.createElement('button');
+        btn.className = `taskbar-app ${!win.minimized ? 'active' : ''}`;
+        btn.textContent = app.icon;
+        btn.title = app.title;
+        btn.addEventListener('click', () => {
+          if (win.minimized) {
+            minimizeWindow(id);
+          } else {
+            focusWindow(id);
+          }
+        });
+        bar.appendChild(btn);
+      });
+    }
+
     function updateClock() {
       const now = new Date();
-      const hours = now.getHours();
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const meridiem = hours >= 12 ? 'PM' : 'AM';
-      const displayHours = hours % 12 || 12;
-      const date = now.toLocaleDateString(undefined, { month: 'numeric', day: 'numeric', year: 'numeric' });
-      document.getElementById('clock').innerHTML = `${displayHours}:${minutes} ${meridiem}<br>${date}`;
+      const h = now.getHours();
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const mer = h >= 12 ? 'PM' : 'AM';
+      const dh = h % 12 || 12;
+      const mo = now.getMonth() + 1;
+      const d = now.getDate();
+      document.getElementById('clock').innerHTML = `${dh}:${m} ${mer}<br>${mo}/${d}`;
     }
+
     updateClock();
     setInterval(updateClock, 60000);
+
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.start-menu') && !e.target.closest('#startBtn')) {
+        document.getElementById('startMenu').classList.add('hidden');
+        document.getElementById('startBtn').classList.remove('active');
+      }
+    });
   </script>
 </body>
 </html>
